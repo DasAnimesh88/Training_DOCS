@@ -1,0 +1,164 @@
+
+----------------------------------------------------------------------------------------------------------
+Github-server on cloud -Remote 
+Git -Local system -Laptop 
+Screenpresso -for web recording 
+
+================================================================================
+1. WHAT IS GIT?
+================================================================================
+
+Git is a free, open-source Distributed Version Control System (DVCS) 
+
+It helps you:
+  - Track changes in your code over time
+  - Collaborate with other developers(different developer how to track which changes which has made)
+  - Revert to previous versions if something breaks
+  - Work on multiple features simultaneously using branches
+  - This is fast and scalable
+  - track history when new features are added 
+
+  Github is website like instagram/facebook which manages to store the project data inside folder /repository-URL 
+
+  ================================================================================
+2. INSTALLING GIT
+================================================================================
+
+WINDOWS:
+  1. Download from https://git-scm.com/download/win
+  2. Run the installer (use default settings for beginners)
+  3. Open "Git Bash" or Command Prompt to use Git
+
+MACOS:
+  Option A - Homebrew:   brew install git
+  Option B - Xcode CLT:  xcode-select --install
+
+LINUX (Debian/Ubuntu):
+  sudo apt update
+  sudo apt install git
+
+
+================================================================================
+5. CREATING A REPOSITORY
+================================================================================
+
+OPTION A: Initialize a new repo in an existing folder
+------------------------------------------------------
+  cd path/to/your/project
+  git init
+
+  This creates a hidden .git folder — Git is now tracking this directory.
+
+OPTION B: Create a new folder and initialize
+--------------------------------------------
+  git init my-project
+  cd my-project
+
+WHAT HAPPENS:
+  A .git directory is created with:
+    - HEAD        (points to current branch)
+    - config      (local repo settings)
+    - objects/    (all Git data)
+    - refs/       (branches and tags)
+
+VERIFY INSTALLATION:
+  git --version
+  (Should display something like: git version 2.43.0)
+
+  Before using Git, tell it who you are. This info is attached to every commit.
+
+  git config --global user.name "Your Name"
+  git config --global user.email "your.email@example.com"
+
+  There are 2 steps apporach 
+
+  1.Either you clone the repository to local system 
+  2.FIrst create folder and do remote 
+
+  ## **Part 1: Git and GitHub Tutorial**
+
+This tutorial covers **Version Control Systems (VCS)**, 
+tools used to track code changes and facilitate collaboration.
+
+#### **1. Setup and Configuration**
+Before using Git, you must configure your identity so that your changes are associated with your account.
+*   **Git Bash (Windows) / Terminal (Mac):** Used to run Git commands.
+*   **Code:**
+    ```bash
+    git config --global user.name "Your Name"
+    git config --global user.email "yourname@example.com"
+    git config --global --list  // To verify configuration
+    ```
+
+#### **2. Core Git Workflow**
+*   **`git init`**: Initializes a new Git repository in a local folder.
+
+
+Branches let you work on features or fixes without affecting the main codebase.
+
+Branches let you work on features or fixes without affecting the main codebase.
+
+VIEW BRANCHES:
+  git branch                     -- list local branches (* = current)
+  git branch -a                  -- list local AND remote branches
+  git branch -v                  -- list with last commit info
+
+
+#### **2. Core Git Workflow**
+*   **`git init`**: Initializes a new Git repository in a local folder.
+*   **`git clone <link>`**: Creates a local copy of a remote repository from GitHub.
+*   **`git status`**: Shows the current state of your files (tracked, untracked, modified, or staged).
+*   **`git add <file>`**: Moves changes to the **Staging Area** (preparing them for a commit).
+*   **`git commit -m "message"`**: Records a permanent snapshot (history) of the staged changes.
+*   **`git push origin main`**: Uploads local commits to the remote GitHub repository.
+*   **`git pull origin main`**: Fetches and downloads content from the remote repository to match your local files.
+
+
+Initialized empty Git repository in C:/Animesh/Training/Git_Data/.git/
+PS C:\Animesh\Training\Git_Data> git config --global user.name "User Name"       
+PS C:\Animesh\Training\Git_Data> git config --global user.email "Mail ID "  
+PS C:\Animesh\Training\Git_Data> git clone gitURL
+
+================================================================================
+4. KEY CONCEPTS & TERMINOLOGY
+================================================================================
+
+REPOSITORY (REPO)
+  A folder tracked by Git. Contains all your project files and the full
+  history of changes (stored in a hidden .git folder).
+
+COMMIT
+  A snapshot of your files at a specific point in time. Each commit has:
+    - A unique ID (SHA hash, e.g., a3f8c12)
+    - Author name & email
+    - Timestamp
+    - Commit message describing the change
+    - Reference to the previous commit (parent)
+
+WORKING DIRECTORY
+  The folder on your computer where you edit files.
+
+STAGING AREA (INDEX)
+  A preparation zone. You choose which changes to include in the next commit
+  by "staging" them with git add.
+
+BRANCH
+  An independent line of development. The default branch is usually called
+  "main" (or "master" in older repos).
+
+HEAD
+  A pointer to the current commit you are working from. Usually points to
+  the tip of the current branch.
+
+REMOTE
+  A version of your repository hosted on a server (e.g., GitHub, GitLab).
+  The default remote is usually called "origin".
+
+CLONE
+  A full copy of a remote repository downloaded to your local machine.
+
+MERGE
+  Combining changes from one branch into another.
+
+REBASE
+  Moving commits from one branch onto another to create a linear history.
