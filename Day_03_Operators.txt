@@ -1,0 +1,487 @@
+// ============================================================
+// SECTION 2: PRIMITIVE DATA TYPES
+// ============================================================
+
+/*
+  JavaScript has 7 PRIMITIVE data types.
+  Primitives are IMMUTABLE (cannot be changed) and stored by VALUE.
+
+  data types define the kind of value a variable can store.
+
+  ┌───────────┬─────────────────────────────────────────────────────┐
+  │  Type     │  Description & Example                              │
+  ├───────────┼─────────────────────────────────────────────────────┤
+  │ String    │ Text: "hello", 'world', `template`                  │
+  │ Number    │ Integers & floats: 42, 3.14, NaN, Infinity          │
+  │ Boolean   │ true or false only                                  │
+  │ undefined │ Variable declared but NOT assigned a value          │
+  │ null      │ Intentional absence of value (assigned by developer)│
+    │ Symbol  │ Unique identifier (ES6) — Symbol("id")              │
+  │ BigInt    │ Very large integers (ES2020) — 9007199254740991n     │
+  └───────────┴─────────────────────────────────────────────────────┘
+// STRING
+let firstName = "Animesh";         // double quotes
+let lastName  = 'Kumar';           // single quotes
+let fullName  = `${firstName} ${lastName}`;  // template literal (ES6)
+console.log("\n--- Data Types ---");
+console.log("String:", firstName, typeof firstName);    // string
+console.log(`hhhhh {fullName} `); 
+
+// NUMBER
+let age        = 30;
+let price      = 99.99;
+let notANumber = NaN;               // result of invalid math: "abc" * 2
+let infinite   = Infinity;          // result of: 1 / 0
+console.log("Number:", age, typeof age);                // number
+console.log("NaN:", notANumber, typeof notANumber);     // number (quirk!)
+console.log("Infinity:", infinite, typeof infinite);    // number
+
+/ BOOLEAN
+let isLoggedIn  = true;
+let isAdmin     = false;
+console.log("Boolean:", isLoggedIn, typeof isLoggedIn); // boolean
+console.log(typeof isLoggedIn )
+
+// UNDEFINED
+let declared;                       // declared but not assigned
+let declared2 = undefined;          // explicitly set to undefined
+console.log("undefined:", declared, typeof declared);   // undefined
+
+// NULL
+let emptyValue = null;              // intentional empty value
+console.log("null:", emptyValue, typeof emptyValue);    // object ← famous JS bug!
+Q2. What is the difference between null and undefined?
+  ANS: undefined means a variable was declared but never assigned a value.
+       null is an intentional assignment by the developer to represent
+       "no value" or "empty". typeof null is "object" (a historic JS bug).
+
+  Q3. Why does typeof null return "object"?
+  ANS: This is a well-known bug from JavaScript's original 1995 implementation.
+       The internal type tag for null was 0, which was also the tag for objects.
+       It was never fixed to maintain backward compatibility.
+
+
+
+let isLoggedIn  = true;
+let isAdmin     = false;
+
+let num=10
+console.log("Boolean:", isLoggedIn, typeof isLoggedIn); // boolean
+console.log(typeof isLoggedIn )
+console.log(typeof num )
+
+// ============================================================
+// SECTION 3: typeof OPERATOR
+// ============================================================
+
+/*
+  typeof returns a STRING describing the type of a value.
+  Syntax: typeof value   OR   typeof(value)
+
+  RESULTS:
+  typeof "hello"         → "string"
+  typeof 42              → "number"
+  typeof true            → "boolean"
+  typeof undefined       → "undefined"
+  typeof null            → "object"    ← BUG (should be "null")
+  typeof Symbol()        → "symbol"
+  typeof 42n             → "bigint"
+  typeof {}  Dictionary         → "object"
+  typeof []    List          → "object"    ← Arrays are objects!
+  typeof function(){}    → "function"
+
+
+  // ============================================================
+// SECTION 4: TYPE COERCION & TYPE CONVERSION
+// ============================================================
+
+/*
+  TYPE COERCION   = JavaScript AUTOMATICALLY converts one type to another
+                    (implicit, happens without you asking)
+
+  TYPE CONVERSION = YOU EXPLICITLY convert one type to another
+                    (explicit, using Number(), String(), Boolean(), etc.)
+*/
+
+// String + Number → String (+ operator triggers string concatenation)
+console.log("5" + 3);          // "53"  ← number 3 coerced to string
+
+console.log("5" + true);       // "5true"
+console.log("5" + null);       // "5null"
+console.log("5" + undefined);  // "5undefined"
+
+// Other operators (-,*,/,%) → Number (tries to convert to number)
+console.log("5" - 3);          // 2     ← "5" coerced to number 5
+console.log("5" * "2");        // 10    ← both coerced to numbers
+console.log("5" / "2");        // 2.5
+console.log("abc" - 1);        // NaN   ← "abc" can't become a number Not a number 
+
+// --- EXPLICIT TYPE CONVERSION ---
+console.log("\n--- Type Conversion (Explicit) ---");
+
+console.log(Number("42"))
+// To NUMBER:
+console.log(Number("42"));       // 42
+console.log(Number("3.14"));     // 3.14
+console.log(Number(""));   empty string      // 0
+console.log(Number("abc"));      // NaN not a number
+console.log(Number(true));       // 1
+console.log(Number(false));      // 0
+console.log(Number(null));       // 0
+console.log(Number(undefined));  // NaN
+
+// To STRING:
+console.log(type String(42));         // "42"
+console.log(String(true));       // "true"
+console.log(String(null));       // "null"
+console.log(String(undefined));  // "undefined"
+console.log((42).toString());    // "42"
+console.log((255).toString(16)); // "ff" ← convert to hex!
+console.log((8).toString(2));    // "1000" ← convert to binary!
+
+// To BOOLEAN:
+console.log(Boolean(1));         // true
+console.log(Boolean(0));         // false
+console.log(Boolean("hello"));   // true
+console.log(Boolean(""));        // false
+console.log(Boolean(null));      // false
+console.log(Boolean([]));        // true  ← surprise!
+
+
+In JavaScript, all objects are truthy, including:
+
+Arrays []
+Objects {}
+Functions function(){}
+Dates new Date()
+
+
+
+// -------------------------------------------------------
+//  INTERVIEW QUESTIONS — Type Coercion
+// -------------------------------------------------------
+/*
+  Q1. What is the difference between type coercion and type conversion?
+  ANS: Type coercion is implicit (automatic) — JS does it without being asked,
+       e.g., "5" + 3 = "53". Type conversion is explicit — developer does it
+       manually using Number(), String(), Boolean(), parseInt(), etc.
+
+  Q2. What are the 6 falsy values in JavaScript?
+  ANS: false, 0, "" (empty string), null, undefined, NaN
+       Everything else is truthy, including "0", [], {}, -1, Infinity.
+
+  Q3. What is the output of "5" - "3" and why?
+  ANS: 2 (number). The - operator always tries to convert operands to numbers.
+       "5" becomes 5 and "3" becomes 3, then 5 - 3 = 2.
+
+  Q4. What is the output of "5" + 3 and why?
+  ANS: "53" (string). The + operator with a string triggers string concatenation.
+       3 is coerced to "3", then "5" + "3" = "53".
+
+  Q5. What is the difference between parseInt() and Number()?
+  ANS: parseInt() parses left-to-right, stops at first non-numeric character:
+       parseInt("42px") = 42. Number() converts the entire string — if ANY
+       non-numeric char exists, it returns NaN: Number("42px") = NaN.
+*/
+
+
+// ============================================================
+// SECTION 5: OPERATORS
+// ============================================================
+
+// ─────────────────────────────────
+// 5A. ARITHMETIC OPERATORS
+// ─────────────────────────────────
+/*
+  +   Addition (also string concatenation)
+  -   Subtraction
+  *   Multiplication
+  /   Division
+  %   Modulus (remainder after division)
+  **  Exponentiation (ES2016)
+  ++  Increment (prefix: ++x, postfix: x++)
+  --  Decrement (prefix: --x, postfix: x--)
+*/
+console.log("\n--- Arithmetic Operators ---");
+let a = 10, b = 3;
+console.log(a + b);    // 13
+console.log(a - b);    // 7
+console.log(a * b);    // 30
+console.log(a / b);    // 3.3333...
+console.log(a % b);    // 1  ← remainder of 10/3
+console.log(a ** b);   // 1000 (10 to the power of 3)
+console.log(2 ** 8);   // 256 (2^8 — useful in bit calculations)
+
+// INCREMENT / DECREMENT
+let count = 5;
+console.log(count++);  // 5  ← returns THEN increments (post-increment)
+console.log(count);    // 6
+console.log(++count);  // 7  ← increments THEN returns (pre-increment)
+
+// ─────────────────────────────────
+// 5B. ASSIGNMENT OPERATORS
+// ─────────────────────────────────
+/*
+  =    Simple assignment
+  +=   Add and assign     (x += 5  →  x = x + 5)
+  -=   Subtract and assign
+  *=   Multiply and assign
+  /=   Divide and assign
+  %=   Modulus and assign
+  **=  Exponent and assign
+*/
+console.log("\n--- Assignment Operators ---");
+let x = 10;
+x += 5;   console.log("+=", x);   // 15
+x -= 3;   console.log("-=", x);   // 12
+x *= 2;   console.log("*=", x);   // 24
+x /= 4;   console.log("/=", x);   // 6
+x %= 4;   console.log("%=", x);   // 2
+x **= 3;  console.log("**=", x);  // 8
+
+// ─────────────────────────────────
+// 5C. COMPARISON OPERATORS
+// ─────────────────────────────────
+/*
+  ==   Loose equality  (checks VALUE only, allows type coercion)
+  ===  Strict equality (checks VALUE AND TYPE — always prefer this!)
+  !=   Loose inequality
+  !==  Strict inequality
+  >    Greater than
+  <    Less than
+  >=   Greater than or equal
+  <=   Less than or equal
+
+  RULE: ALWAYS use === and !== in JavaScript. Never use == unless you
+        explicitly want type coercion (rare).
+
+
+  console.log("\n--- Comparison Operators ---");
+
+// == vs ===
+console.log(5 == "5");     // true  ← "5" coerced to 5 (DANGEROUS!)
+console.log(5 === "5");    // false ← different types
+console.log(0 == false);   // true  ← false coerced to 0
+console.log(0 === false);  // false ← different types
+console.log(null == undefined);   // true  ← special JS rule
+console.log(null === undefined);  // false ← different types
+console.log(NaN == NaN);   // false ← NaN is not equal to anything, even itself!
+console.log(NaN === NaN);  // false
+
+
+// ─────────────────────────────────
+// 5D. LOGICAL OPERATORS
+// ─────────────────────────────────
+/*
+
+&&  AND  — returns first FALSY value, or last value if all truthy
+  ||  OR   — returns first TRUTHY value, or last value if all falsy
+  !   NOT  — inverts truthy/falsy
+// AND (&&)
+console.log(true && true);    // true
+console.log(true && false);   // false
+console.log(false && true);   // false
+console.log(5 && "hello");    // "hello" ← returns last truthy value
+console.log(0 && "hello");    // 0       ← returns first falsy value
+console.log(null && "hello"); // null    ← returns first falsy value
+
+
+How && works in JavaScript
+
+The logical AND (&&) operator does not always return true or false.
+
+It evaluates operands from left to right:
+
+If it finds a falsy value, it returns that value immediately.
+If all values are truthy, it returns the last value.
+Step-by-step
+5 && "hello"
+5 is truthy
+Since the first value is truthy, JavaScript evaluates the second value
+"hello" is also truthy
+All operands are truthy, so JavaScript returns the last operand
+
+Result:
+
+"hello"
+More Examples
+Example 1
+console.log(0 && "hello");
+
+Output:
+
+0
+
+Because 0 is falsy, JavaScript stops immediately and returns 0.
+
+Example 2
+console.log("abc" && 100);
+
+Output:
+
+100
+
+Both values are truthy, so the last value is returned.
+
+Example 3
+console.log(null && "hello");
+
+Output:
+
+null
+
+null is falsy, so evaluation stops there.
+
+
+
+// ─────────────────────────────────
+// 5E. TERNARY OPERATOR
+// ─────────────────────────────────
+/*
+  Syntax: condition ? valueIfTrue : valueIfFalse
+
+  It is a SHORTHAND for if-else.
+  Best used for SIMPLE conditions — don't nest deeply.
+*/
+
+let temp = 35;
+let weather = temp > 30 ? "Hot" : temp > 20 ? "Warm" : "Cold";
+console.log("Weather:", weather);  // Hot
+
+// Ternary version (cleaner for simple cases):
+let grade2 = userAge >= 18 ? "Adult" : "Minor";
+console.log(grade, grade2);  // Adult Adult
+
+// -------------------------------------------------------
+//  INTERVIEW QUESTIONS — Operators
+// -------------------------------------------------------
+/*
+  Q1. What is the difference between == and ===?
+  ANS: == (loose equality) compares values after type coercion.
+       === (strict equality) compares both value AND type with no coercion.
+       Always prefer === to avoid unexpected bugs.
+       e.g., 5 == "5" is true, but 5 === "5" is false.
+
+  Q2. What does the || operator return?
+  ANS: || returns the first TRUTHY value it finds. If all values are falsy,
+       it returns the last value. It does NOT necessarily return true/false —
+       it returns the actual value.
+       e.g., 0 || "" || "default" returns "default".
+
+  Q3. What is the difference between || and ??
+  ANS: || returns right side if left side is ANY falsy value (0, "", false, null, undefined, NaN).
+       ?? returns right side ONLY if left side is null or undefined.
+       Use ?? when 0 or "" are valid values you want to keep.
+
+1. What is the output of: console.log(0 || "hello" || "world")?
+     a) 0   b) "hello"   c) "world"   d) true
+
+2. What is the output of: console.log(0 ?? "default")?
+     a) "default"   b) 0   c) null   d) undefined
+
+
+?? is called the Nullish Coalescing Operator in JavaScript.
+
+Syntax
+value ?? defaultValue
+Meaning
+
+Return the left value if it is not null and not undefined.
+
+Otherwise, return the right value.
+
+Examples
+console.log(null ?? "default");
+
+Output:
+
+"default"
+What is the output of: console.log(5 + "5")?
+     a) 10   b) "55"   c) "5+5"   d) NaN
+
+
+What is the output of: let x = 5; console.log(x++)?
+     a) 6   b) 5   c) undefined   d) NaN
+
+1. var is scoped to:
+      a) Block   b) Function   c) Module   d) Global
+
+   2. let and const are scoped to:
+      a) Function   b) Module   c) Block   d) Global
+      ANS: c) Block
+
+3. What does hoisting do to var?
+      a) Moves to global scope    b) Declares and initializes to undefined
+      c) Declares but not initializes  d) Throws an error
+
+
+ 1. "What is the difference between var, let, const?"
+     → var: function-scoped, hoisted to undefined, re-declarable, re-assignable
+       let: block-scoped, TDZ, re-assignable but not re-declarable
+       const: block-scoped, TDZ, neither re-assignable nor re-declarable
+
+  2. "What is hoisting?"
+     → JS moves declarations to the top of their scope before execution.
+       var gets hoisted + initialized to undefined.
+       let/const get hoisted but stay in TDZ (ReferenceError if accessed early).
+
+  3. "What are the falsy values in JavaScript?"
+     → false, 0, "" (empty string), null, undefined, NaN
+
+  4. "What is the difference between == and ===?"
+     → == does type coercion before comparing. === compares both type and value.
+       Always use === to avoid unexpected coercion bugs.
+
+  5. "What is the difference between null and undefined?"
+     → undefined: variable declared but never assigned (JS sets this).
+       null: intentional empty value (developer sets this).
+
+  6. "What is the difference between || and ???"
+     → || returns right side if left is ANY falsy value.
+       ?? returns right side ONLY if left is null or undefined.
+       Use ?? to preserve legitimate values like 0 or "".
+
+
+  8. "What is type coercion? Give an example."
+     → JS automatically converts types when operators expect different types.
+       e.g., "5" + 3 = "53" (3 coerced to string), "5" - 3 = 2 (coerced to number)
+*/
+
+
+GENAI -Generative AI - this will generate the data based on the input we provide to system
+LLM -chatgpt -gpt 4.5,claude models-sonnet
+LLM- Large language models 
+chatgpt - is a open source webstite which use its own LLM models
+these are trained models with huge data 
+
+Large language models  -models are trained in diferent lanaguage with huge volume of data ...
+
+Examples of LLMs
+OpenAI GPT-4, GPT-5.5
+Google Gemini
+Anthropic Claude
+Meta Llama
+Mistral AI Mistral
+
+Why "Large"?
+
+Because they have:
+
+Billions or trillions of parameters
+Huge training datasets
+Powerful computing resources
+What Can an LLM Do?
+
+✅ Answer questions
+
+✅ Write code
+
+✅ Debug programs
+
+✅ Summarize documents
+
+✅ Translate languages
+
+✅ Generate emails and reports
+
+✅ Help with interview preparation
