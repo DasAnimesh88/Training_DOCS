@@ -1,0 +1,258 @@
+// ============================================================
+//  DAY 3 - Strings & String Methods
+
+
+// ============================================================
+// SECTION 1: STRING CREATION
+// ============================================================
+
+/*
+  A STRING is a sequence of characters used to represent text.
+  In JavaScript, strings are PRIMITIVE values (immutable).
+
+THREE ways to create strings:
+
+  ┌──────────────────┬──────────────────────────────────────────────────┐
+  │  Type            │  Example & Notes                                 │
+  ├──────────────────┼──────────────────────────────────────────────────┤
+  │ Single Quotes    │ 'Hello World'  — traditional style               │
+  │ Double Quotes    │ "Hello World"  — also traditional                │
+  │ Backticks (ES6)  │ `Hello World`  — template literals, most powerful│
+
+  // --- Single Quotes ---
+let singleQuote = 'Hello, JavaScript!';
+console.log(singleQuote);                          // Hello, JavaScript!
+
+PS C:\Animesh\Training\SampleCode> node .\Day_04_Strings.js      
+Hello, JavaScript!
+PS C:\Animesh\Training\SampleCode> 
+
+// --- Double Quotes ---
+let doubleQuote = "Hello, JavaScript!";
+console.log(doubleQuote);                          // Hello, JavaScript!
+
+// --- Backtick (Template Literals) — ES6 ---
+let backtick = `Hello, JavaScript!`;
+console.log(backtick);                             // Hello, JavaScript!
+
+
+// 1. STRING INTERPOLATION — embed any JS expression using ${...}
+let name   = "Dev";
+let course = "Playwright";
+let greeting = `Hello, ${name}! Welcome to ${course} training.`;
+console.log(greeting);   // Hello, Dev! Welcome to Playwright training.
+
+// Multi-line with single/double quotes requires \n escape:
+let multiLineOld = 'Line 1\n"Line 2"\nLine 3';
+console.log(multiLineOld);
+
+// -------------------------------------------------------
+//  INTERVIEW QUESTIONS — String Creation
+// -------------------------------------------------------
+/*
+  Q1. What are the three ways to create strings in JavaScript?
+  ANS: Single quotes (''), double quotes (""), and template literals (backticks ``).
+       All three create primitive string values. Template literals are most
+       powerful — they support interpolation, multi-line, and expressions.
+
+  Q2. What is the difference between 'hello' and new String('hello')?
+  ANS: 'hello' is a primitive string (type: "string").
+       new String('hello') is a String wrapper object (type: "object").
+       Primitives are compared by value; objects by reference.
+       Always use the primitive form. new String() is almost never needed.
+
+
+ 1. What is the output of: typeof "hello"?
+     a) "String"   b) "string"   c) "object"   d) "primitive"
+
+2. Template literals use which delimiters?
+     a) Single quotes   b) Double quotes   c) Backticks   d) Curly braces
+     ANSWER: c) Backticksc``
+
+// ============================================================
+// SECTION 2: STRING IMMUTABILITY
+// ============================================================
+let str = "Hello";
+always string are stored in index value 
+first value has index 0
+str[0]
+
+let str = "Hello";
+console.log(str[2]); 
+
+// Any operation that "changes" a string actually returns a NEW string
+let original  = "hello";
+let modified  = original.toUpperCase();  // returns a NEW string
+console.log(original);   // "hello" — UNCHANGED
+console.log(modified);   // "HELLO" — new string
+
+let str = "Hello";
+str[0] = "J";     // ❌ FAILS SILENTLY — strings are immutable!
+console.log(str[0]);  // "H" — still unchanged
+
+// Each character access is read-only
+let word = "Playwright";
+console.log(word[0]);     // "P"
+console.log(word[1]);     // "l"
+word[0] = "Z";            // silently ignored!
+console.log(word);        // "Playwright" — unchanged
+
+
+  Q1. Are strings mutable in JavaScript?
+  ANS: "No. Strings are immutable — you cannot change individual characters
+       after creation. Operations like toUpperCase(), replace(), etc. always
+       return NEW strings. The original string remains unchanged."
+
+      let s = "hello"; 
+     console.log(s[4]);
+
+properties ,methods
+
+// ============================================================
+// SECTION 3: STRING PROPERTIES — .length
+// ============================================================
+
+console.log("\n============ SECTION 3: String Properties ============");
+
+/*
+  .length → returns the number of characters in the string
+            (includes spaces, special characters, emojis)
+*/
+
+let message = "Hello, World";
+console.log(message.length);        // 13
+
+console.log("".length);             // 0  — empty string
+console.log("   ".length);          // 3  — spaces count!
+console.log("Playwright".length);   // 10
+
+let message = "012345  yyy";
+console.log(message.length-1)
+
+let message = "012345  yyp";
+console.log(message[message.length-1]);
+
+
+ 1. What is "Hello".length?
+     a) 4   b) 5   c) 6   d) undefined
+
+
+// ============================================================
+// SECTION 4: IMPORTANT STRING METHODS
+// ============================================================
+
+let text = "Hello, Playwright! 123";
+let text = "123";
+console.log(text.toUpperCase());   // "HELLO, PLAYWRIGHT!"
+console.log(text.toLowerCase());   // "hello, playwright!"
+console.log(text);                 // "Hello, Playwright!" — ORIGINAL UNCHANGED
+
+let text = "Hello, Playwright! 123";
+let newStr=text.toUpperCase()
+console.log(newStr);   // "HELLO, PLAYWRIGHT!"
+console.log(text.toLowerCase());   // "hello, playwright!"
+console.log(text); 
+
+let text = "Hello world";
+console.log(text.includes("world")); // true
+console.log(text.includes("World")); // false (case sensitive)
+
+string.indexOf(substr)          │ First position of substring (-1 if not found)│
+
+
+// ─────────────────────────────────
+// 4C. charAt() 
+
+let sample = "JavaScript";
+console.log(sample.charAt(0));       // "J"
+console.log(sample.charAt(4));       // "S"
+console.log(sample.charAt(10));      // "t"
+// ─────────────────────────────────
+
+/ ─────────────────────────────────
+// 4D. indexOf() and lastIndexOf()
+// ─────────────────────────────────
+
+console.log("\n--- 4D: indexOf and lastIndexOf ---");
+
+let sentence = "the cat sat mat on the mat near the cat";
+
+// indexOf — finds FIRST occurrence
+console.log(sentence.indexOf("cat"));       // 4  — position of first "cat"
+console.log(sentence.indexOf("dog"));       // -1 — not found → -1
+console.log(sentence.indexOf("the"));       // 0  — first "the"
+console.log(sentence.indexOf("the", 5));    // 15 — search starts at index 5
+
+
+// lastIndexOf — finds LAST occurrence
+console.log(sentence.lastIndexOf("cat"));   // 31 — last "cat"
+
+let sentence = "the near near cat sat mat on the mat  the cat";
+console.log(sentence.lastIndexOf("near"));
+
+
+let sentence = "the cat sat mat on the mat near the cat";
+if (sentence.indexOf("cat") !== 4) {
+    console.log("The word 'cat' is present in the sentence.");
+}
+
+
+// ─────────────────────────────────
+// 4E. includes(), startsWith(), endsWith()
+// ─────────────────────────────────
+
+string.includes(searchString[, position])
+
+console.log("\n--- 4E: includes, startsWith, endsWith ---");
+
+let url = "https://playwright.dev/docs/api";
+
+// includes() — checks if substring exists ANYWHERE
+console.log(url.includes("Playwright"));    // false
+console.log(url.includes("selenium"));      // false
+console.log(url.includes("https"));         // true
+console.log(url.includes("api", 20));       // true (search after index 20)
+
+
+
+let text = "Hello world";
+console.log(text.includes("world", 5)); // true
+console.log(text.includes("Hello", 5)); // true
+
+let url = "https://playwright.dev/docs/api";
+// startsWith() — checks if string STARTS WITH given substring
+console.log(url.startsWith("https"));       // true
+console.log(url.startsWith("http://")); 
+
+
+// endsWith() — checks if string ENDS WITH given substring
+console.log(url.endsWith("/api"));          // true
+console.log(url.endsWith(".html"));         // false
+console.log(url.endsWith("docs", 30));      // true (considers only first 30 chars)
+
+
+ What does "hello".indexOf("efff") return?
+     a) 0   b) null   c) -1   d) undefined
+indexOf() returns the index (number) of the first match, or -1 if not found.
+       includes() returns a boolean (true/false).
+       Use includes() when you only need to know IF something exists —
+       it's more readable. Use indexOf() when you also need the position.
+
+What does indexOf() return when the substring is not found?
+  ANS: It returns -1. This is the standard check: if (str.indexOf(x) !== -1).
+       However, str.includes(x) is cleaner for existence checks.
+
+──────────────────────────┬─────────────────────────────────────────────┐
+  │  Method                  │  Purpose                                    │
+  ├──────────────────────────┼─────────────────────────────────────────────┤
+  │ toUpperCase()            │ Convert all characters to uppercase          │
+  │ toLowerCase()            │ Convert all characters to lowercase          │
+  │ trim()                   │ Remove whitespace from both ends             │
+  │ trimStart() / trimEnd()  │ Remove whitespace from one end               │
+  │ charAt(index)            │ Get character at a specific index            │
+  │ charCodeAt(index)        │ Get ASCII/Unicode code of character          │
+  │ indexOf(substr)          │ First position of substring (-1 if not found)│
+  │ lastIndexOf(substr)      │ Last position of substring                   │
+  │ includes(substr)         │ Returns true/false — does string contain it? │
+  │ startsWith(substr)       │ Does string start with given substring?      │
+  │ endsWith(substr)         │ Does string end with given substring?        │

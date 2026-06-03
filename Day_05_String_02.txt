@@ -1,0 +1,462 @@
+// ─────────────────────────────────
+// 4F. slice(), substring(), substr()
+// ─────────────────────────────────
+
+slice(s, e)   │ Extract from index s UP TO (not including) index e  │
+  │               │ ✅ Supports NEGATIVE indices                         │
+  │               │ ✅ PREFERRED in modern JS   
+
+
+  "Hello world there is a show "
+
+  " world "
+let str2 = "Hello, Playwright!";
+//          0123456789...''
+
+console.log(str2.slice(starindex,stopindex)); 
+console.log(str2.slice(1,4)); 
+
+let str2 = "Hello, Playwright$";
+//          0123456789...
+console.log(str2.slice(1,4));
+console.log(str2.slice(0, 5)); 
+console.log(str2.slice(7,9));  
+console.log(str2.slice(-1,-5));
+console.log(str2.slice(7,5)); 
+console.log(str2.slice(-11, -1)); 
+
+console.log(str2.slice(-4,-1));
+
+substring(s,e)│ Same as slice but NO negative index support         │
+  │               │ Swaps s and e if s > e     
+let str="0123456789"
+  console.log(str2.substring(3,6));    
+
+  let str="0123456789"
+  console.log(str.substring(-2));    
+
+str.substring(-2, 5) is treated like str.substring(0, 5) because substring() converts negative start values to 0.
+
+Use slice() for all extraction. It handles negatives and is consistent.
+
+Q1. What is the difference between slice() and substring()?
+  ANS: Both extract a portion of a string with (start, end) parameters.
+       Key differences:
+       - slice() supports NEGATIVE indices (counts from end);
+         substring() treats negatives as 0.
+       - If start > end: substring() swaps them; slice() returns "".
+       - substr() is DEPRECATED — its second argument is LENGTH not end index.
+       Recommendation: always use slice().
+
+What is the result of "hello".slice(2, -1)? ll 
+
+
+/ 4G. replace() and replaceAll()
+
+
+replace("find matc","value to be replaced")
+
+let sentence2 = "I love cat % cats. Cats are great. I have a cat.";
+console.log(sentence2.replace("cat", "dog"));
+
+
+let sentence2 = "I love cats. Cats are great. I have a cat.";
+
+// replace() — replaces ONLY the FIRST match (case-sensitive by default)
+console.log(sentence2.replace("cat", "dog"));
+// "I love dogs. Cats are great. I have a cat." — only first "cat" replaced
+
+console.log(sentence2.replaceAll("cat", "dog"));
+
+// Remove all spaces
+let withSpaces = "Hello World Playwright";
+let noSpaces   = withSpaces.replaceAll(" ", "");
+console.log(noSpaces);    // "HelloWorldPlaywright"
+
+// -------------------------------------------------------
+//  INTERVIEW QUESTIONS — replace vs replaceAll
+// -------------------------------------------------------
+/*
+  Q1. What is the difference between replace() and replaceAll()?
+  ANS: replace() replaces only the FIRST occurrence of the search string/pattern.
+       replaceAll() replaces ALL occurrences.
+       For replace() to replace all, you need a regex with the global flag (g):
+       str.replace(/pattern/g, replacement)
+       replaceAll() (ES2021) is the cleaner, string-based alternative.
+     
+
+     "aabbaa".replace("a", "x")  "xabbaa" — replaces only the FIRST "a"
+
+     ANSWER: a) "xxbbxx" — replaces ALL "a"
+     "aabbaa".replaceAll("a", "x") returns: 
+
+─────────────────────────────────
+// 4H. split() and join()
+// ─────────────────────────────────
+
+/*
+  split(separator) → splits a string into an ARRAY of substrings
+  Array join(separator) → joins array elements into a STRING
+
+  These two methods are COMPLEMENTARY — string ↔ array conversion.
+
+
+*/
+  let csv = "apple,banana,cherry,date";
+  let fruits = csv.split(",");
+  console.log(fruits);  
+
+    let csv = "apple,banana,cherry,date";
+  let fruits = csv.split(",");
+  console.log(fruits);  
+
+  // Split into individual characters (empty string separator)
+let word2 = "Hello";
+let chars2 = word2.split("");
+console.log(chars2);       // ["H", "e", "l", "l", "o"]
+
+// join() examples — Array → String
+let words2 = ["Hello", "World", "Playwright"];
+let sentence2 = words2.join("");   
+console.log(words2.join("*")); 
+console.log(words2.join("")); 
+
+  Q1. What does "hello".split("") return?
+  ANS: An array of individual characters: ["h", "e", "l", "l", "o"]
+       Splitting by empty string breaks the string into every character.
+       This is commonly used to reverse a string: str.split("").reverse().join("")
+
+        Q3. How do you reverse a string in JavaScript?
+  ANS: The common approach:
+       str.split("").reverse().join("")
+       1. split("")   → converts string to array of characters
+       2. .reverse()  → reverses the array in-place
+       3. .join("")   → joins array back to a string
+
+
+
+let text = "Hello world";
+// let reversed = text.split("").reverse().join("");
+let reversed = text.split("").reverse().join("");
+console.log(reversed); // "dlrow olleH"
+
+
+ ─────────────────────────────────
+// 4J. concat()
+// ─────────────────────────────────
+// concat() — joins two or more strings (old method — use + or template literals instead)
+let s1 = "Hello";
+let s2 = "World";
+let s3 = "Playwright";
+console.log(s1.concat(", ", s2, "!"));  // "Hello, World!"
+console.log(s1.concat(" ", s2, " - ", s3)); "Hello World - Playwright"
+
+// ============================================================
+// SECTION 5: ESCAPE CHARACTERS
+// ============================================================
+
+console.log("\n============ SECTION 5: Escape Characters ============");
+
+/*
+  Escape sequences are special characters that start with backslash (\).
+  They represent characters that are otherwise difficult to include in strings.
+
+  ┌──────────┬────────────────────────────────────────────────┐
+  │ Sequence │ Meaning                                        │
+  ├──────────┼────────────────────────────────────────────────┤
+  │ \n       │ Newline (line break)                           │
+  │ \t       │ Tab (horizontal)                               │
+  │ \\       │ Literal backslash \                            │
+  │ \'       │ Single quote (inside single-quoted string)     │
+  │ \"       │ Double quote (inside double-quoted string)     │
+  │ \r       │ Carriage return                                │
+  │ \0       │ Null character                                 │
+  │ \uXXXX   │ Unicode character (hex 4 digits)               │
+  │ \xXX     │ Latin-1 character (hex 2 digits)               │
+  └──────────┴─────────────────────────────────────// \n — Newline
+console.log("Line 1\nLine 2\nLine 3");
+
+  2. What is the output of: console.log("Hello\tWorld");?
+     a) HelloWorld   b) Hello\tWorld   c) Hello	World (with tab)   d) Hello World
+
+          a    b
+
+// ============================================================
+// SECTION 6: STRING ↔ ARRAY CONVERSION
+// ============================================================
+
+console.log("\n============ SECTION 6: String ↔ Array Conversion ============");
+
+/*
+  String → Array:
+  1. str.split("")        → splits every character
+  2. str.split(" ")       → splits by word
+
+  Array → String:
+  1. arr.join("")         → joins with no separator
+  2. arr.join(" ")        → joins with space
+
+// Sentence → Words
+let sentence3 = "JavaScript is awesome";
+console.log(sentence3.split(" "));     // ["JavaScript", "is", "awesome"]
+
+let letters = ["H", "e", "l", "l", "o"];
+console.log(letters.join(""));         // "Hello"
+console.log(letters.join("-"));        // "H-e-l-l-o"
+
+QUICK REFERENCE TABLE:
+  ┌──────────────────────────┬─────────────────────────────────────────────┐
+  │  Method                  │  Purpose                                    │
+  ├──────────────────────────┼─────────────────────────────────────────────┤
+  │ toUpperCase()            │ Convert all characters to uppercase          │
+  │ toLowerCase()            │ Convert all characters to lowercase          │
+  │ trim()                   │ Remove whitespace from both ends             │
+  │ trimStart() / trimEnd()  │ Remove whitespace from one end               │
+  │ charAt(index)            │ Get character at a specific index            │
+  │ charCodeAt(index)        │ Get ASCII/Unicode code of character          │
+  │ indexOf(substr)          │ First position of substring (-1 if not found)│
+  │ lastIndexOf(substr)      │ Last position of substring                   │
+  │ includes(substr)         │ Returns true/false — does string contain it? │
+  │ startsWith(substr)       │ Does string start with given substring?      │
+  │ endsWith(substr)         │ Does string end with given substring?        │
+  │ slice(start, end)        │ Extract part of string (supports negatives)  │
+  │ substring(start, end)    │ Extract part of string (no negatives)        │
+  │ replace(search, new)     │ Replace FIRST match                          │
+  │ replaceAll(search, new)  │ Replace ALL matches                          │
+  │ split(separator)         │ Split string into an array                   │
+  │ repeat(count)            │ Repeat string n times                        │
+  │ padStart(len, char)      │ Pad start of string to reach given length    │
+  │ padEnd(len, char)        │ Pad end of string to reach given length      │
+  │ concat(str2)             │ Concatenate two strings                      │
+  │ at(index)                │ Get char at index (supports negatives) ES2022│
+  └──────────────────────────┴─────────────────────────────────────────────┘
+
+  // ============================================================
+// SECTION 8: INTERVIEW QUESTIONS — STRINGS (TOP 20)
+// ============================================================
+
+/*
+  ============================================================
+  TOP 20 STRING INTERVIEW QUESTIONS — WITH ANSWERS
+  ============================================================
+
+  Q1. Are strings primitive or reference types in JavaScript?
+  ANS: Strings are PRIMITIVE types. They are stored by value, not by reference.
+       However, you can still call methods on them because JS temporarily wraps
+       them in a String object (auto-boxing) when a method is accessed.
+
+  Q2. What is string immutability? Give an example.
+  ANS: Once a string is created, its characters cannot be modified.
+       str[0] = "X" silently fails. All string methods return NEW strings.
+       Example:
+         let s = "hello"; s[0] = "H"; console.log(s); // still "hello"
+
+  Q3. How do you reverse a string in JavaScript?
+  ANS: str.split("").reverse().join("")
+       This splits into chars, reverses the array, and joins back.
+
+  Q4. How do you check if a string is a palindrome?
+  ANS: Clean the string (lowercase, remove non-alphanum), then compare with
+       its reverse: clean === clean.split("").reverse().join("")
+
+  Q5. What is the difference between slice() and substring()?
+  ANS: slice() supports negative indices (counts from end).
+       substring() does NOT support negative indices (treats as 0).
+       If start > end: slice returns "", substring swaps them.
+       Prefer slice() in modern code.
+
+  Q6. What does indexOf() return when the substring is not found?
+  ANS: -1. You check: if (str.indexOf(sub) !== -1). Alternatively, use
+       str.includes(sub) which returns a boolean (cleaner and more readable).
+
+  Q7. How do you convert a string to an array?
+  ANS: Three ways:
+       1. str.split("")       → array of chars
+       2. [...str]            → spread operator
+       3. Array.from(str)     → ES6
+       For words: str.split(" ")
+
+  Q8. How do you convert an array to a string?
+  ANS: arr.join("")         → no separator
+       arr.join(" ")        → space-separated
+       arr.toString()       → comma-separated (calls join(","))
+
+  Q9. What is the output of: "Hello".slice(1, 3)?
+  ANS: "el" — characters at index 1 and 2 (index 3 is excluded).
+
+  Q10. What is template literal / template string?
+  ANS: Template literals use backticks (`) and support:
+       - String interpolation: `Hello, ${name}`
+       - Multi-line strings (press Enter inside backticks)
+       - Embedded expressions: `${2 + 2}` → "4"
+       - Tagged templates for custom processing
+
+  Q11. What is the difference between includes() and indexOf()?
+  ANS: includes() returns boolean (true/false) — use when you only need to
+       know IF something exists. indexOf() returns the position (number) —
+       use when you also need to know WHERE it is.
+
+  Q12. How do you remove whitespace from both ends of a string?
+  ANS: str.trim()       → removes from both sides
+       str.trimStart()  → removes from the start (left)
+       str.trimEnd()    → removes from the end (right)
+       Very important for cleaning user input before processing/storing.
+
+  Q13. What does split() with no argument do?
+  ANS: "hello".split() returns ["hello"] — array with the whole string as
+       the only element. "hello".split("") splits into individual characters.
+       "hello world".split(" ") splits by spaces into words.
+
+  Q14. How do you replace all occurrences of a substring?
+  ANS: Two ways:
+       1. str.replaceAll("old", "new")        — ES2021, string-based
+       2. str.replace(/old/g, "new")          — regex with global flag
+       For case-insensitive: str.replace(/old/gi, "new")
+
+  Q15. What are the 6 falsy values? How does this relate to strings?
+  ANS: false, 0, "" (empty string), null, undefined, NaN.
+       An empty string "" is the ONLY falsy string value.
+       All non-empty strings (including "false", "0", " ") are truthy.
+
+  Q16. What is the difference between "==" and string comparison?
+  ANS: "5" == 5 is TRUE (type coercion converts 5 to "5").
+       "5" === 5 is FALSE (strict comparison — different types).
+       String comparisons are CASE-SENSITIVE: "Hello" !== "hello".
+       Always use === for string comparisons.
+
+  Q17. How do you count the number of occurrences of a character in a string?
+  ANS: Several ways:
+       "banana".split("a").length - 1   → 3  (split creates n+1 pieces)
+       [...str].filter(c => c === "a").length
+       (str.match(/a/g) || []).length
+
+  Q18. What does charCodeAt() do? How is it different from charAt()?
+  ANS: charCodeAt(index) returns the NUMERIC Unicode code of the character.
+       charAt(index) returns the actual CHARACTER at that index.
+       charCodeAt is useful for range checks: A=65, Z=90, a=97, z=122, 0=48, 9=57.
+
+  Q19. What is the output of "abc".repeat(-1)?
+  ANS: It throws a RangeError: Invalid count value.
+       repeat() requires a non-negative integer. repeat(0) gives "".
+
+  Q20. What is String.fromCharCode() and how does it relate to charCodeAt()?
+  ANS: They are INVERSES of each other:
+       charCodeAt(index) → number (char to code)
+       String.fromCharCode(code) → string (code to char)
+       Example: "A".charCodeAt(0) === 65
+                String.fromCharCode(65) === "A"
+*/
+
+
+// ============================================================
+// SECTION 9: QUICK REVISION MCQ — 25 Questions
+// ============================================================
+
+/*
+  [QUICK REVISION — Answer before moving to Day 4]
+
+   1. What does "Hello World".toUpperCase() return?
+      a) "hello world"   b) "HELLO WORLD"   c) "Hello World"   d) Error
+      ANS: b) "HELLO WORLD"
+
+   2. What does "  hello  ".trim() return?
+      a) "  hello  "   b) "hello"   c) "hello  "   d) "  hello"
+      ANS: b) "hello"
+
+   3. "JavaScript".indexOf("Script") returns:
+      a) -1   b) 4   c) 0   d) 10
+      ANS: b) 4 (case-sensitive match at index 4)
+
+   4. "Hello".charAt(10) returns:
+      a) undefined   b) null   c) ""   d) Error
+      ANS: c) "" (out of range returns empty string)
+
+   5. "Hello"[10] returns:
+      a) ""   b) null   c) undefined   d) Error
+      ANS: c) undefined (bracket access returns undefined for out-of-range)
+
+   6. "abc".repeat(3) returns:
+      a) "abc3"   b) "abcabcabc"   c) "aabbcc"   d) "abc abc abc"
+      ANS: b) "abcabcabc"
+
+   7. "7".padStart(4, "0") returns:
+      a) "7000"   b) "0007"   c) "007"   d) "70"
+      ANS: b) "0007" — 4 chars total, padded at start with "0"
+
+   8. "Hello World".split(" ") returns:
+      a) ["Hello World"]   b) ["H","e","l","l","o"," ","W","o","r","l","d"]
+      c) ["Hello", "World"]   d) ["Hello","","World"]
+      ANS: c) ["Hello", "World"]
+
+   9. ["H","i"].join("-") returns:
+      a) "Hi"   b) "H-i"   c) ["H-i"]   d) "H,i"
+      ANS: b) "H-i"
+
+   10. "Playwright".slice(-4) returns:
+       a) "Play"   b) "yright"   c) "ight"   d) "writ"
+       ANS: c) "ight" — last 4 characters (length=10, -4 = index 6)
+
+   11. "hello world".includes("World") returns:
+       a) true   b) false   c) 6   d) -1
+       ANS: b) false — includes() is case-sensitive
+
+   12. "https://playwright.dev".startsWith("https") returns:
+       a) 0   b) "https"   c) true   d) false
+       ANS: c) true
+
+   13. "test.spec.js".endsWith(".js") returns:
+       a) false   b) 9   c) ".js"   d) true
+       ANS: d) true
+
+   14. "banana".replace("a", "x") returns:
+       a) "bxnxnx"   b) "bxnana"   c) "bnxnx"   d) Error
+       ANS: b) "bxnana" — replaces FIRST occurrence only
+
+   15. "banana".replaceAll("a", "x") returns:
+       a) "bxnxnx"   b) "bxnana"   c) "bananx"   d) Error
+       ANS: a) "bxnxnx" — replaces ALL occurrences
+
+   16. What does str.split("").reverse().join("") do?
+       a) Sorts the string   b) Reverses the string
+       c) Removes duplicates   d) Converts to uppercase
+       ANS: b) Reverses the string
+
+   17. "Hello".substring(1, 3) returns:
+       a) "el"   b) "He"   c) "ell"   d) "Hel"
+       ANS: a) "el" — indices 1 and 2 (3 excluded)
+
+   18. "JavaScript".slice(0, 4) returns:
+       a) "JavaS"   b) "Java"   c) "ava"   d) "avas"
+       ANS: b) "Java"
+
+   19. What is the result of: "5".padEnd(5, "0")?
+       a) "00005"   b) "50000"   c) "50005"   d) "55555"
+       ANS: b) "50000"
+
+   20. "hello".charAt(0).toUpperCase() + "hello".slice(1) returns:
+       a) "HELLO"   b) "hello"   c) "Hello"   d) "hELLO"
+       ANS: c) "Hello" — classic capitalize first letter pattern
+
+   21. "abc" + "def" using concat() would be written as:
+       a) "abc".concat("def")   b) concat("abc","def")
+       c) "abc"."def"           d) concat.abc("def")
+       ANS: a) "abc".concat("def")
+
+   22. String.fromCharCode(65) returns:
+       a) "a"   b) "A"   c) "65"   d) 65
+       ANS: b) "A" (char code 65 = 'A')
+
+   23. "Hello\nWorld".split("\n") returns:
+       a) ["HelloWorld"]   b) ["Hello", "World"]
+       c) ["Hello\n", "World"]   d) Error
+       ANS: b) ["Hello", "World"]
+
+   24. `${"hello".toUpperCase()}!` evaluates to:
+       a) "${"hello".toUpperCase()}!"   b) "HELLO!"
+       c) "hello!"   d) Error
+       ANS: b) "HELLO!" — expressions inside ${} are evaluated
+
+   25. "racecar".split("").reverse().join("") === "racecar" returns:
+       a) false   b) Error   c) true   d) undefined
+       ANS: c) true — racecar is a palindrome!
+*/
