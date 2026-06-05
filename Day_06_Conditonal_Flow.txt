@@ -1,0 +1,375 @@
+// SECTION 1: if / else if / else STATEMENTS
+
+SYNTAX:
+  -------
+  if (condition) {
+    // runs when condition is TRUTHY
+  } else if (anotherCondition) {
+    // runs when first is false and this is TRUTHY
+  } else {
+    // runs when ALL conditions above are FALSE
+  }
+
+  let age = 20;
+if (age >= 18) {
+  console.log("Adult — can vote");      // runs
+} else {
+  console.log("Minor — cannot vote");
+}
+
+
+// --- if / else if / else ---
+let score = 75;
+let grade;
+if (score >= 90) {
+  grade = "A";
+} else if (score >= 80) {
+  grade = "B";
+} else if (score >= 70) {
+  grade = "C";
+} else if (score >= 60) {
+  grade = "D";
+} else {
+  grade = "F";
+}
+console.log(`Score: ${score} → Grade: ${grade}`);   // Score: 75 → Grade: C
+
+
+if (score >= 90) {
+  grade = "A";
+}else {
+  grade = "F";
+}
+
+
+==========================
+
+// --- Nested if ---
+let isLoggedIn = true;
+let isAdmin    = false;
+if (isLoggedIn) {
+  if (isAdmin) {
+    console.log("Admin dashboard");
+  } else {
+    console.log("User dashboard");   // prints this
+  }
+} else {
+  console.log("Please log in");
+}
+
+
+=============================================
+
+What is the difference between if/else and ternary operator?
+  ANS: Both achieve conditional branching.
+       if/else is a STATEMENT — can execute multiple lines, use loops, etc.
+       Ternary (? :) is an EXPRESSION — returns a value, must be a single
+       expression on each side. Use ternary only for simple, readable cases.
+       Nested ternary is hard to read — prefer if/else for complex logic.
+
+       ===========================================
+
+ What happens if you use = instead of === in an if condition?
+  ANS: if (x = 5) is an ASSIGNMENT, not a comparison. It sets x to 5 and then
+       the condition evaluates the result (5), which is truthy — so the block
+       always runs. This is a common bug. Some linters flag it.
+       Always use === for comparison inside conditions.
+
+==============================================
+
+
+ What is the output?
+     let x = 0;
+     if (x)
+      { console.log("A"); } 
+     else 
+     { console.log("B"); }
+
+=================================================
+
+// ============================================================
+// SECTION 2: SWITCH STATEMENT
+// ============================================================
+
+/*
+  switch is used when you compare ONE VARIABLE against MULTIPLE EXACT VALUES.
+  It uses STRICT EQUALITY (===) internally.
+
+  SYNTAX:
+  -------
+  switch (expression) {
+    case value1:
+      // code
+      break;        // ← CRUCIAL! prevents fall-through
+    case value2:
+      // code
+      break;
+    default:
+      // runs if no case matches (like else)
+  }
+
+  KEY CONCEPTS:
+  - break exits the switch block — without it, execution FALLS THROUGH to next case
+  - default is optional and can be placed anywhere (convention: at the end)
+  - switch uses ===, so "1" !== 1
+  - Multiple cases can share the same block (intentional fall-through)
+*/
+
+// --- Basic switch ---
+let day = 3;
+let dayName;
+switch (day) {
+  case 1: dayName = "Monday";    break;
+  case 2: dayName = "Tuesday";   break;
+  case 3: dayName = "Wednesday"; break;   // ← matches
+  case 4: dayName = "Thursday";  break;
+  case 5: dayName = "Friday";    break;
+  case 6: dayName = "Saturday";  break;
+  case 7: dayName = "Sunday";    break;
+  default: dayName = "Invalid";
+}
+console.log(dayName);   // Wednesday
+
+
+
+===================================================================
+When break is MISSING, JS continues executing the NEXT case's code
+  even if its condition doesn't match — this is "fall-through".
+  This is a very common BUG if unintentional.
+
+let status = 2;
+console.log("\n--- Fall-through demo (BUG): ---");
+switch (status) {
+  case 1:
+    console.log("Case 1");
+    // NO BREAK — falls through!
+  case 2:
+    console.log("Case 2");   // runs
+    // NO BREAK — falls through!
+  case 3:
+    console.log("Case 3");   // ALSO runs! (fall-through bug)
+    break;
+  case 4:
+    console.log("Case 4");
+}
+// Output: Case 2, Case 3
+
+===================================================
+
+// ============================================================
+// SECTION 3: LOOPS
+// ============================================================
+
+ A LOOP repeats a block of code while a condition is true.
+
+ ──────────────┬────────────────────────────────────────────────────┐
+  │  Loop Type   │  Best Used For                                     │
+  ├──────────────┼────────────────────────────────────────────────────┤
+  │ for          │ Known number of iterations, counter-based           │
+  │ while        │ Unknown iterations — loop until condition is false  │
+  │ do...while   │ Like while but ALWAYS runs at least ONCE            │
+  │ for...in     │ Iterate over OBJECT KEYS (enumerable properties)    │
+  │ for...of     │ Iterate over ITERABLE VALUES (array, string, etc.)  
+
+===================================================================================
+
+// ─────────────────────────────────
+// 3A. for Loop
+// ─────────────────────────────────
+/*
+  SYNTAX: for (initialization; condition; incrememnet/decrement) { body }
+
+  Three parts in the parentheses:
+  1. initialization — runs ONCE before the loop starts  (let i = 0)
+  2. condition      — checked BEFORE each iteration     (i < 5)
+  3. update         — runs AFTER each iteration         (i++)
+
+  Execution order: init → [check condition → body → update] → repeat
+*/
+
+
+=========================================================
+
+// Basic for loop
+for (let i = 0; i < 5; i++) {
+  console.log(i + " ");   // 0 1 2 3 4
+}
+console.log();
+
+
+====================================================
+
+// Iterate over array (classic way)
+let fruits = ["apple", "banana", "cherry", "date"];
+
+for (let i = 0; i < fruits.length; i++) {
+  console.log(`${i}: ${fruits[i]}`);
+}
+
+let fruits = ["apple", "banana", "cherry", "date"];
+
+// for (let i = 0; i < fruits.length; i++) {
+//   console.log(`${i}: ${fruits[i]}`);
+// }
+// ========================================================================
+// let str="Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:170:5)"
+// str.charAt(0) // 'F'
+// str.indexOf('170') // 35
+
+
+========================================================================
+
+─────────────────────────────────
+// 3E. for...of Loop (ITERABLES)
+// ─────────────────────────────────
+/*
+  SYNTAX: for (let value of iterable) { ... }
+
+  - Iterates over ITERABLE VALUES directly (not keys/indices)
+  - Works with: Arrays, Strings, Maps, Sets, NodeLists, arguments, generators
+  - Does NOT work with plain objects (they are NOT iterable by default)
+  - Does NOT iterate inherited properties
+  - PREFERRED for arrays and strings in modern JS
+*/
+console.log("\n--- 3E: for...of Loop ---");
+
+// Array — gets values directly
+let colors = ["red", "green", "blue"];
+for (let color of colors) {
+  console.log(color);   // red, green, blue
+}
+
+// Array — gets values directly
+let colors = "Red"
+for (let color of colors) {
+  console.log(color);   // red, green, blue
+}
+
+===================================================
+
+What is the difference between for...in and for...of?
+  ANS: for...in iterates over KEYS (property names) of an object.
+       for...of iterates over ITERABLE VALUES (array elements, string chars, etc.)
+       for...in works on objects but is NOT suitable for arrays (can include
+       prototype props). for...of requires an iterable — plain objects won't work.
+       Rule of thumb: use for...of for arrays/strings, for...in for objects.
+
+===================================================================
+
+Can you use for...of on a string?
+  ANS: Yes! Strings are iterable in JavaScript. for...of iterates over each
+       character: for (let char of "hello") correctly yields "h","e","l","l","o".
+       This correctly handles multi-byte Unicode characters (unlike str[i]).
+
+for...in iterates over:
+     a) Array values   b) Object keys   c) String characters   d) Set values
+
+for...of works on:
+     a) Only arrays          b) Only objects
+     c) All iterables        d) Only strings
+
+
+// ─────────────────────────────────
+// SCENARIO 1: Form Validation with if/else
+// Real-world: Validating login form fields
+// ─────────────────────────────────
+console.log("--- Scenario 1: Form Validation ---");
+
+function validateLoginForm(username, password) {
+  let errors = [];
+  if (!username || username.trim() === "") {
+    errors.push("Username is required");
+  } else if (username.length < 3) {
+    errors.push("Username must be at least 3 characters");
+  }
+  if (!password || password.trim() === "") {
+    errors.push("Password is required");
+  } else if (password.length < 8) {
+    errors.push("Password must be at least 8 characters");
+  } else if (!/[A-Z]/.test(password)) {
+    errors.push("Password must contain at least one uppercase letter");
+  } else if (!/[0-9]/.test(password)) {
+    errors.push("Password must contain at least one digit");
+  }
+  return errors.length === 0
+    ? { valid: true, message: "Form is valid" }
+    : { valid: false, errors };
+}
+
+console.log(validateLoginForm("", ""));
+// { valid: false, errors: ['Username is required', 'Password is required'] }
+console.log(validateLoginForm("Al", "hello"));
+// { valid: false, errors: ['Username must be at least 3 chars', 'Password too short'] }
+console.log(validateLoginForm("Animesh", "Playwright1"));
+// { valid: true, message: 'Form is valid' }
+
+// ─────────────────────────────────
+// SCENARIO 2: Retry Logic with while Loop
+// Real-world: Playwright test retry for flaky elements
+// ─────────────────────────────────
+console.log("\n--- Scenario 2: Retry Logic ---");
+
+function simulateRetry(taskName, maxRetries = 3) {
+  let attempt = 0;
+  let success = false;
+  while (attempt < maxRetries && !success) {
+    attempt++;
+    // Simulate: fails first 2 times, succeeds on 3rd
+    success = attempt >= 3;
+    console.log(`[${taskName}] Attempt ${attempt}: ${success ? "SUCCESS ✅" : "FAILED ❌ — retrying"}`);
+  }
+  if (!success) console.log(`[${taskName}] All ${maxRetries} attempts failed`);
+  return success;
+}
+
+=========================================================
+
+while loop in JavaScript
+A while loop repeats a block of code as long as a condition is true.
+
+Syntax:
+
+Example:
+
+Key points:
+
+The condition is checked before each iteration.
+If the condition is false initially, the loop body never runs.
+Use break to exit early if needed:
+
+===============================================
+
+do {
+  // code to run
+} while (condition);
+
+=========================================
+==================== Loops ====================
+  Q: Loop for known iterations?                     A: for
+  Q: Loop for unknown iterations?                   A: while
+  Q: Loop that runs body at least once?             A: do...while
+  Q: Loop for object keys?                          A: for...in
+  Q: Loop for array/iterable values?                A: for...of
+  Q: Are plain objects iterable?                    A: No
+  Q: for...in on arrays — good practice?            A: No (use for...of)
+  Q: Get index + value in for...of?                 A: arr.entries()
+  Q: for...of on a Map gives?                       A: [key, value] pairs
+  Q: Three parts of for loop?                       A: init, condition, update
+  Q: Which part of for runs only once?              A: Initialization
+
+  ==============================================================
+
+     1. What is the output?
+      for (let i = 0; i < 3; i++) { console.log(i); }
+      a) 0 1 2   b) 1 2 3   c) 0 1 2 3   d) Error
+      ANS: a) 0 1 2
+
+      What is the output?
+      let i = 5;
+      do { console.log(i); i++; } while (i < 3);
+      a) Nothing   b) 5   c) 5 6 7...   d) Error
+
+      
+  11. Which loop guarantees execution of the body at least once?
+      a) for   b) while   c) for...of   d) do...while
+      NS: d) do...while
