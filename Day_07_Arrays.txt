@@ -1,0 +1,335 @@
+### 1. Introduction to Arrays
+An array is a collection of items stored at specific positions.
+Unlike objects, where you must track unique keys,
+arrays allow you to store multiple items under a **single name** using **indices**.
+
+
+=============================
+
+WHAT IS AN ARRAY?
+  ─────────────────
+  An Array is an ordered, indexed collection of values.
+  • Elements can be of ANY type (numbers, strings, objects, functions, other arrays)
+  • Arrays are OBJECTS in JavaScript (typeof [] === "object")
+  • Zero-indexed: first element is at index 0
+  • Arrays are MUTABLE — you can change elements even if declared with const
+  • Arrays are DYNAMIC — size grows/shrinks automatically (no fixed size like C/Java)
+
+  let fruits = ["apple", "banana", "cherry"];
+
+  let fruits1 = [1 ,3 ,"apple", "banana", "cherry"];
+
+  let str="abc"
+  typeof str
+  imutable 
+  str[0]="f"
+
+  typeof fruits 
+  fruits[2]="Mangoes"
+
+  ====================================
+
+  console.log("--- 1. Creating Arrays ---");
+
+// 1. Array literal (most common)
+const fruits = ["apple", "banana", "cherry"];
+console.log("Array literal:", fruits);
+
+typeof array - object
+
+======================
+ACCESSING ELEMENTS
+  ──────────────────
+  Syntax: array[index]
+  • Index starts at 0
+  • Negative index is NOT supported natively (unlike Python)
+  • Use array[array.length - 1] for last element
+  • ES2022: array.at(-1) supports negative indexing!
+  • Out-of-bounds access returns undefined (no error)
+
+  ===============================
+
+  MODIFYING ELEMENTS -Mutable 
+  ──────────────────
+  • Direct assignment: array[i] = newValue
+  • You can add elements beyond current length (creates sparse array)
+  • const arrays CAN have their elements changed (const = reference is constant)
+    but you CANNOT reassign the variable to a new array
+
+    let fruits = ["apple", "banana", "cherry"];
+console.log(fruits)
+fruits[2]="Mangoes"
+console.log(fruits[-1])
+
+=========================
+
+const colors = ["red", "green", "blue", "yellow", "purple"];
+
+// Accessing
+console.log("colors[0]:", colors[0]);                     // "red"
+console.log("colors[2]:", colors[2]);                     // "blue"
+console.log("Last (length-1):", colors[colors.length - 1]); // "purple"
+console.log("Out of bounds:", colors[10]);                // undefined
+
+Array Properties and Type
+*   **Length Property:** Every array has a `.length` property that returns the total number of items.
+*   **Data Type:** In JavaScript, the `typeof` an array is actually an **"object"**. 
+It is a special type of object where keys are replaced by numerical indices.
+
+Methods -
+
+slice() ,toupperCase() -mEthods l=always return a value ,it will modify the value in arrays/strings 
+properties - length ,typeof -it doesnt modify it only returns a value 
+
+=======================
+
+```javascript
+console.log(marks.length); // 5
+console.log(typeof marks); // "object"
+
+
+How to access array 
+ Looping Over Arrays
+The source explains two primary ways to iterate through array elements:
+
+*   **`for` loop:** Uses the index and the `.length` property to navigate through elements.
+*   **`for...of` loop:** A modern shorthand used specifically for iterating over values in "iterables" like arrays.
+
+
+=============================
+
+// Using for loop
+for (let i = 0; i < fruits.length; i++) {
+    console.log(fruits[i]);
+}
+
+// Using for...of loop
+for (let fruit of fruits) {
+    console.log(hefruitro);
+}
+```==========================
+
+let fruits = ["apple", "banana", "cherry"];
+for (let fruit of fruits) {
+    console.log(fruit.split(" "));
+}
+
+=========================
+
+============================================================
+// SECTION 4: Basic Array Methods
+// ============================================================
+
+// ─────────────────────────────────
+// 4a. push(), pop(), shift(), unshift()  — Add/Remove
+// ─────────────────────────────────
+/*let fruits = ["apple", "banana", "cherry"];
+  ┌────────────┬──────────────────────────────┬─────────────────┐
+  │ Method     │ Description                  │ Returns         │
+  ├────────────┼──────────────────────────────┼─────────────────┤
+  │ push()     │ Add to END                   │ new length      │
+  │ pop()      │ Remove from END              │ removed element │
+  │ unshift()  │ Add to BEGINNING             │ new length      │
+  │ shift()    │ Remove from BEGINNING        │ removed element │
+  └────────────┴──────────────────────────────┴─────────────────┘
+================================
+
+const stack = [2, 3, 4];
+console.log("push(5):", stack.push(5));
+console.log(stack); // returns new length of the array
+console.log("pop():", stack.pop());
+console.log(stack); // returns the popped element
+console.log("shift():", stack.shift());
+console.log(stack); // returns the shifted element
+console.log("unshift(1):", stack.unshift("hello"));
+console.log(stack); // returns new length of the array
+=======================================
+slice(start, end)
+  ──────────────────
+  • Does NOT mutate original
+  • Returns a SHALLOW COPY of array from start (inclusive) to end (exclusive)
+  • Negative indices count from end
+  • No arguments → full shallow copy
+
+  ┌─────────────────────────────────────────────────────┐
+  │  arr = [A, B, C, D, E]                              │
+  │  Index:  0  1  2  3  4                              │
+  │                                                     │
+  │  slice(1, 3) → [B, C]     (index 1,2 — not 3)      │
+  │  slice(2)    → [C, D, E]  (from 2 to end)           │
+  │  slice(-2)   → [D, E]     (last 2)                  │
+  │  slice()     → [A,B,C,D,E] (full copy)    
+
+let number =[1,2,3,4,5];
+console.log(number.slice(1,4));
+console.log(number.slice(1)); //[ 2, 3, 4, 5 ]
+console.log(number.slice(0,3)); //[ 1, 2, 3 ]
+console.log(number.slice(-3)); //[ 3, 4, 5 ]
+console.log(number.slice(-4,-1)); //[ 2, 3, 4 ]
+console.log(number.slice(-4,0)); //[] because 0 is before -4
+console.log(number.slice(3,-1));
+
+ ─────────────────────────────────
+// 4b. splice() — Add/Remove/Replace at any position
+// ─────────────────────────────────
+/*
+  splice(startIndex, deleteCount, item1, item2, ...)
+  ────────────────────────────────────────────────────
+  • MUTATES the original array
+  • Returns array of DELETED elements
+  • startIndex: where to start (negative = from end)
+  • deleteCount: how many to remove (0 = insert only)
+  • items: elements to INSERT at startIndex
+
+  USE CASES:
+  ┌──────────────────────────────────────────────────────┐
+  │ Remove only:   splice(2, 1)    → remove 1 at index 2│
+  │ Insert only:   splice(2, 0, x) → insert x at index 2│
+  │ Replace:       splice(2, 1, x) → replace index 2    │
+  │ Remove from end: splice(-2, 1) → remove 1 from -2   │
+  └──────────────────────────────────────────────────────┘
+let number =[0,1,2,3,4,5,6,7,8,9];
+console.log(number.splice(2,2,10,11,13))
+console.log(number)
+
+let x =["Jenna","Mia","Lily","Sophie","Emily"];
+console.log(x.splice(2,2,"Alice","Bob"))
+console.log(x)
+
+
+const months = ["Jan", "Feb", "Mar", "Apr", "May"];
+
+// Remove 1 element at index 1
+const removed = months.splice(1, 1,"Aug","Sept");
+console.log("splice(1,1) removed:", removed, "arr:", months); // ["Feb"] | [Jan,Mar,Apr,May]
+
+
+// Insert without removing
+months.splice(1, 0, "Feb");
+console.log("splice(1,0,'Feb') insert:", months); // [Jan,Feb,Mar,Apr,May]
+
+// Replace 2 elements starting at index 2
+months.splice(2, 2, "March", "April", "Extra");
+console.log("splice(2,2,...) replace:", months); // [Jan,Feb,March,April,Extra,May]
+
+// Remove last 2 using negative index
+months.splice(-2);
+console.log("splice(-2) remove last 2:", months); // [Jan,Feb,March]
+
+  splice vs slice — KEY DIFFERENCE:
+  ─────────────────────────────────
+  splice → MUTATES original,  returns removed elements
+  slice  → DOES NOT mutate,   returns extracted copy/slcie portion
+
+======================================
+
+// ─────────────────────────────────
+// 4d. indexOf(), lastIndexOf(), includes()
+// ─────────────────────────────────
+/*
+  ┌──────────────────┬──────────────────────────────────────────┐
+  │ Method           │ Description                              │
+  ├──────────────────┼──────────────────────────────────────────┤
+  │ indexOf(v, from) │ First index of v, -1 if not found        │
+  │ lastIndexOf(v)   │ Last index of v, -1 if not found         │
+  │ includes(v, from)│ true/false — does array contain v?       │
+  └──────────────────┴──────────────────────────────────────────┘
+  All three use STRICT equality (===)
+  indexOf and includes can find NaN differently:
+    [NaN].indexOf(NaN) → -1  (uses ===, NaN !== NaN)
+    [NaN].includes(NaN) → true  (uses SameValueZero algorithm)
+*/
+
+console.log("\n--- 4d. indexOf / lastIndexOf / includes ---");
+
+const scores = [10, 20, 30, 20, 40, 20];
+console.log("indexOf(20):", scores.indexOf(20));        // 1
+console.log("indexOf(20, 2):", scores.indexOf(20, 2));  // 3 (start from index 2)
+console.log("indexOf(99):", scores.indexOf(99));        // -1
+console.log("lastIndexOf(20):", scores.lastIndexOf(20));// 5
+console.log("includes(30):", scores.includes(30));      // true
+console.log("includes(99):", scores.includes(99));      // false
+
+
+===========================================
+
+// ─────────────────────────────────
+// 4e. reverse(), sort()
+// ─────────────────────────────────
+/*reverse()
+  ──────────
+  • MUTATES original array
+  • Reverses in place, returns reference to same (now reversed) array
+
+const rev = [1, 2, 3, 4, 5];
+console.log("reverse():", rev.reverse()); // [5,4,3,2,1] mutates!
+
+=============================
+
+// Sort objects by property
+const employees = [ { name: "Charlie", age: 35 }, { name: "Alice", age: 28 }, { name: "Bob", age: 42 }];
+
+============================
+
+concat(arr1, arr2, ...)
+  ───────────────────────
+  • Merges arrays and/or values
+  • Does NOT mutate, returns NEW array
+  • Shallow: nested arrays stay nested
+const arr2 = [1, 2];
+const arr3 = [3, 4];
+const arr4 = [5, 6];
+
+let finaArr=arr2.concat(arr3,arr4)
+console.log(finaArr)
+
+console.log("concat:", arr2.concat(arr3, arr4, [7, 8]));  // [1,2,3,4,5,6,7,8]
+
+
+const arr2 = [1, 2];
+const arr3 = [3, 4];
+const arr4 = [5, 6];
+
+let finaArr=arr2.concat(arr3,arr4)
+console.log(finaArr)
+let finaArr2=arr2.concat(arr3,arr4,["hello","world"])
+console.log(finaArr2)
+
+========================
+
+join(separator)
+  ─────────────────
+  • Converts all elements to string, joins with separator
+  • Default separator is comma ","
+  • join('') — no separator (useful for building strings)
+
+const words = ["Hello", "World", "from", "JS"];
+console.log("join default:", words.join());
+
+===========================
+
+INTERVIEW Q&A — Basic Methods
+  ───────────────────────────────
+  Q: What's the difference between splice() and slice()?
+  A: splice() mutates the original array and can add/remove/replace elements.
+     slice() doesn't mutate and returns a shallow copy of a portion.
+
+
+MCQ:
+  Q: [1,2,3].splice(1,0,"x") returns?
+  a) ["x"]   b) []   c) [1,"x",2,3]   d) [2,3]
+
+
+  ["a","b","c"].slice(1) //"b","c"
+
+  ──────────────┬──────────────────────────────────────────┬───────────────┐
+  │ Method       │ Purpose                                  │ Returns       │
+  ├──────────────┼──────────────────────────────────────────┼───────────────┤
+  │ forEach()    │ Execute side effect for each element     │ undefined     │
+  │ map()        │ Transform each element                   │ NEW array     │
+  │ filter()     │ Keep elements passing a test             │ NEW array     │
+  │ reduce()     │ Accumulate to single value               │ single value  │
+  │ find()       │ First element passing test               │ element/undef │
+  │ findIndex()  │ Index of first element passing test      │ number/-1     │
+  │ some()       │ True if ANY element passes test          │ boolean       │
+  │ every()      │ True if ALL elements pass test           │ boolean      
