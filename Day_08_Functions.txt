@@ -1,0 +1,1547 @@
+### 1. Introduction to Functions
+A function is a **block of code** designed to perform a specific task. 
+It allows you to write code once and reuse it (invoke/call it) whenever needed, which helps minimize **redundancy** in your program.
+
+*   **Function Definition:** Uses the `function` keyword, followed by a name and a block of code.
+*   **Function Call:** Executed by writing the function name followed by parentheses `()`.
+
+
+======================
+
+function myFunction() {
+    console.log("Hello World!");
+}
+
+myFunction(); // Call the function to execute it
+
+===============================================
+
+
+function addNumbers(a, b) {
+    console.log(a + b);
+}
+addNumbers(5, 3); // Call the function with arguments
+
+// console.log(a + b); // This will cause an error because a and b are not defined in this scope
+
+===============================================
+
+### 2. Parameters and Arguments
+*   **Parameters:** Variables used in the function definition to accept inputs.
+*   **Arguments:** The actual values passed to the function during a call.
+*   **Local Scope:** Parameters act as **local variables**; they only exist within the function's block scope and cannot be accessed outside.
+
+```javascript
+function sum(a, b) { // a and b are parameters
+    console.log(a + b);
+}
+
+sum(5, 10); // 5 and 10 are arguments
+===========================
+
+function addNumbers(a, b) {
+    return a + b; // Return the sum of a and b
+}
+
+ let result = addNumbers(5, 3); // Call the function with arguments and store the returned value
+    console.log(result); // Output: 8
+console.log(addNumbers(10, 20)); // Output: 30
+
+===============================================
+
+### 3. CALLBACK FUNCTIONS - INTERVIEW QUESTIONS
+
+📌 QUESTION 1: What is a Callback Function?
+ANSWER: A callback function is a function that is passed as an argument to another function,
+ and is executed after some operation has been performed.
+
+Example:
+function calculator(a, b, callback) {
+    return callback(a, b);  // callback is executed here
+}
+
+function sum(x, y) {
+    return x + y;
+}
+
+calculator(10, 20, sum);  // sum is a callback function
+
+---
+
+📌 QUESTION 2: What's the difference between passing a function and calling a function?
+ANSWER:
+- Passing: calculator(10, 20, sum) - NO parentheses, pass the function reference
+- Calling: calculator(10, 20, sum()) - WITH parentheses, executes the function immediately
+
+❌ WRONG: calculator(10, 20, sum())  // This calls sum first and passes the result
+✅ RIGHT: calculator(10, 20, sum)    // This passes the function itself
+
+---
+
+📌 QUESTION 3: Explain what happens when we call calculator(10, 20, sum)?
+ANSWER:
+Step 1: calculator function is invoked with arguments (10, 20, sum)
+Step 2: a = 10, b = 20, callback = sum (function reference)
+Step 3: Inside calculator, callback(a, b) is executed
+Step 4: This calls sum(10, 20)
+Step 5: sum returns 30
+Step 6: calculator returns 30
+
+---
+
+📌 QUESTION 4: What are Real-World Use Cases of Callbacks?
+ANSWER:
+1. Event Handlers (onclick, addEventListener)
+2. Array Methods (map, filter, forEach)
+3. Asynchronous Operations (fetch, setTimeout)
+4. File Operations (fs.readFile)
+5. Database Queries
+
+Example:
+document.addEventListener('click', function() {
+    console.log('Button clicked');  // callback function
+});
+
+---
+
+📌 QUESTION 5: Can you write a callback example with an arrow function?
+ANSWER:
+calculator(10, 20, (a, b) => a + b);
+
+OR
+
+const multiply = (x, y) => x * y;
+calculator(10, 20, multiply);
+
+---
+
+📌 QUESTION 6: What is "Callback Hell" and how to avoid it?
+ANSWER:
+Callback Hell occurs when you have nested callbacks making code hard to read:
+
+❌ CALLBACK HELL:
+function getData(callback1) {
+    setTimeout(() => {
+        callback1((data) => {
+            setTimeout(() => {
+                // More nesting...
+            });
+        });
+    });
+}
+
+✅ SOLUTION: Use Promises or async/await instead
+
+---
+
+📌 QUESTION 7: What's the difference between Callbacks and Promises?
+ANSWER:
+Callbacks: Function passed as argument, executed later
+Promises: Object that represents future value (resolved or rejected)
+Async/Await: Cleaner syntax built on Promises
+
+---
+
+📌 QUESTION 8: Can callbacks be asynchronous?
+ANSWER:
+Yes! Callbacks are often used with asynchronous operations:
+
+setTimeout(() => {
+    console.log('This runs after 2 seconds');
+}, 2000);
+
+fetch('url').then(response => {
+    console.log(response);  // callback in .then()
+});
+
+---
+
+📌 QUESTION 9: How to handle errors in callbacks?
+ANSWER:
+function processData(data, successCallback, errorCallback) {
+    if (data) {
+        successCallback(data);
+    } else {
+        errorCallback('Data not found');
+    }
+}
+
+processData(10, 
+    (result) => console.log('Success:', result),
+    (error) => console.log('Error:', error)
+);
+
+---
+// Callback function 1: sum
+function sum(a, b) {
+    return a + b
+}
+
+// Callback function 2: multiply
+function mul(a, b) {
+    return a * b
+}
+
+// Callback function 3: subtract
+function sub(a, b) {
+    return a - b
+}
+
+// Main calculator function that accepts a callback
+function calculator(a, b, callback) {
+    console.log(`Performing operation on ${a} and ${b}`)
+    return callback(a, b)
+}
+
+// Using calculator with different callbacks
+console.log("Sum:", calculator(10, 20, sum))
+console.log("Multiply:", calculator(10, 20, mul))
+console.log("Subtract:", calculator(10, 20, sub))
+
+// You can also use arrow functions as callbacks
+console.log("Divide:", calculator(20, 4, (x, y) => x / y))
+console.log("Power:", calculator(2, 5, (x, y) => x ** y))
+
+📌 QUESTION 10: Write a callback function that adds 5 numbers
+ANSWER:
+function add(a, b, c, d, e, callback) {
+    let sum = a + b + c + d + e;
+    callback(sum);
+}
+
+add(1, 2, 3, 4, 5, (result) => {
+    console.log('Sum is:', result);  // Output: Sum is: 15
+});
+
+
+### 3. The `return` Keyword
+Functions can return a value back to where they were called. 
+*   **Important:** Any code written **after** a `return` statement is **unreachable** and will not execute.
+
+```javascript
+function calculateSum(x, y) {
+    let s = x + y;
+    return s; // Returns the sum
+    console.log("This will never print"); // Unreachable code
+}
+
+let result = calculateSum(3, 4); // result becomes 7
+
+function addNumbers(a, b) {
+    return a + b; // Return the sum of a and b
+}
+
+
+let greet=()=>{
+console.log("Hello World")
+}
+
+greet()
+
+====================
+
+let sum=(a,b)=>{
+return a+b
+}
+
+sum(5,3)
+
+let mul=(a,b)=>{
+return a*b
+}
+
+mul(3,4)
+
+===========================
+
+let sum=(a,b)=>{
+return a+b
+}
+
+let vsum=sum(5,3)
+console.log(vsum)
+
+
+### 4. Arrow Functions
+Arrow functions are a compact, modern way to write functions, typically used for small logic. They are often stored in variables.
+
+```javascript
+const arrowSum = (a, b) => {
+    return a + b;
+};
+
+const printHello = () =>{console.log("hello")}  // Single line shorthand
+const printHello = () => console.log("hello"); // Single line shorthand
+
+
+### 5. Higher-Order Functions and Callbacks
+*   **Callback Function:** A function passed as an argument to another function.
+*   **Higher-Order Function/Method:** A function that either takes another function as a parameter or returns a function. `forEach` is a prime example of a higher-order method
+
+function sum(a,b){
+    return a+b
+}
+
+function calculator(sum){
+    return sum
+}
+
+console.log(calculator(10,20))
+
+=======================================
+
+function sum(a,b){
+    return a+b
+}
+
+function calculator(sum){
+    return sum
+}
+
+console.log(calculator(10,20))
+
+===================================
+
+let sum=(a,b)=>{
+    return a+b
+}
+
+let calculator=(a,b)=>{
+    return a+b
+}
+
+=========================================================
+
+
+// Callback function 2: multiply
+function mul(a, b) {
+    return a * b
+}
+
+// Callback function 3: subtract
+function sub(a, b) {
+    return a - b
+}
+
+// Main calculator function that accepts a callback
+function calculator(a, b, callback) {
+    console.log(`Performing operation on ${a} and ${b}`)
+    return callback(a, b)
+}
+
+// Using calculator with different callbacks
+console.log("Sum:", calculator(10, 20, sum))
+console.log("Multiply:", calculator(10, 20, mul))
+console.log("Subtract:", calculator(10, 20, sub))
+
+
+---------------------------------------------------
+
+let arr=[1,2,3,4,5,6,7,8,9]
+
+=================================================================
+### 6. DIFFERENCE BETWEEN FUNCTIONS AND METHODS
+=================================================================
+
+📌 KEY DIFFERENCE:
+- FUNCTION: A reusable block of code that stands alone
+- METHOD: A function that belongs to an object
+
+---
+
+📌 FUNCTION:
+✅ Standalone code
+✅ Called directly by name
+✅ NOT associated with any object
+
+Example:
+function sum(a, b) {
+    return a + b;
+}
+sum(5, 3); // Calling a function directly
+
+const multiply = (x, y) => x * y;
+multiply(4, 5);
+
+---
+
+📌 METHOD:
+✅ Function inside an object
+✅ Called using dot notation (object.method())
+✅ Can access object properties using 'this' keyword
+✅ Associated with the object it belongs to
+
+Example 1: String Methods
+let str = "hello"
+str.toUpperCase()      // METHOD of string object
+str.toLowerCase()      // METHOD of string object
+str.charAt(0)          // METHOD of string object
+str.slice(1, 4)        // METHOD of string object
+
+Example 2: Array Methods
+let arr = [1, 2, 3, 4, 5]
+arr.push(6)            // METHOD of array object
+arr.pop()              // METHOD of array object
+arr.slice(0, 2)        // METHOD of array object
+arr.map(x => x * 2)    // METHOD of array object
+arr.filter(x => x > 2) // METHOD of array object
+
+Example 3: Custom Object with Methods
+let calculator = {
+    name: "My Calculator",
+    
+    // These are METHODS (functions inside object)
+    add: function(a, b) {
+        return a + b;
+    },
+    
+    subtract: (a, b) => {
+        return a - b;
+    },
+    
+    multiply(a, b) {  // Shorthand syntax
+        return a * b;
+    }
+};
+
+calculator.add(10, 5);        // Calling a METHOD
+calculator.subtract(10, 5);   // Calling a METHOD
+calculator.multiply(10, 5);   // Calling a METHOD
+
+---
+
+📌 USING 'this' KEYWORD IN METHODS:
+
+let person = {
+    name: "Animesh",
+    age: 25,
+    
+    // Method using 'this'
+    greet: function() {
+        console.log("Hello, my name is " + this.name);
+        console.log("I am " + this.age + " years old");
+    }
+};
+
+person.greet();  // Output: Hello, my name is Animesh
+                 //         I am 25 years old
+
+---
+
+📌 COMPARISON TABLE:
+
+| Feature      | Function      | Method        |
+|--------------|---------------|---------------|
+| Definition   | Standalone    | Inside object |
+| Called as    | name()        | object.name() |
+| 'this' ref   | No (or global)| Yes (object)  |
+| Example      | sum(5, 3)     | arr.push(6)   |
+
+---
+
+📌 PRACTICAL EXAMPLES:
+
+// FUNCTION - Standalone
+function calculateArea(radius) {
+    return 3.14 * radius * radius;
+}
+calculateArea(5);
+
+// METHOD - Belongs to circle object
+let circle = {
+    radius: 5,
+    calculateArea: function() {
+        return 3.14 * this.radius * this.radius;
+    }
+};
+circle.calculateArea();
+
+---
+
+📌 INTERVIEW QUESTIONS:
+
+Q1: Can a function be a method?
+A: Yes! Any function stored in an object becomes a method.
+
+Q2: Can a method be a function?
+A: A method IS a function, but specifically one that belongs to an object.
+
+Q3: What is the difference between sum(5,3) and str.toUpperCase()?
+A: sum() is a function, toUpperCase() is a method (belongs to string object)
+
+Q4: What does 'this' mean in a method?
+A: 'this' refers to the object that the method belongs to.
+
+
+Array Methods 
+let x=[]
+x.forEach()
+x.map()
+x.filter()
+
+=================================================================
+### 7. DEMERITS (DISADVANTAGES) OF forEach
+=================================================================
+
+❌ DEMERIT 1: Cannot use 'break' or 'continue'
+PROBLEM: You cannot stop the loop early with 'break' or skip iteration with 'continue'
+
+WRONG:
+arr.forEach((num) => {
+    if (num === 3) {
+        break;  // ❌ SyntaxError - break not allowed in forEach
+    }
+});
+
+RIGHT (use for loop):
+for (let i = 0; i < arr.length; i++) {
+    if (arr[i] === 3) {
+        break;  // ✅ Works perfectly
+    }
+}
+
+---
+
+❌ DEMERIT 2: Cannot return from outer function
+PROBLEM: Using 'return' inside forEach only skips current iteration, not the outer function
+
+WRONG:
+function findNumber(arr) {
+    arr.forEach((num) => {
+        if (num === 5) {
+            return;  // ❌ Only skips this iteration, doesn't exit function
+        }
+        console.log(num);
+    });
+    console.log("Function ended");  // This still executes
+}
+
+RIGHT (use for loop or find()):
+function findNumber(arr) {
+    for (let num of arr) {
+        if (num === 5) {
+            return;  // ✅ Exits the function completely
+        }
+        console.log(num);
+    }
+}
+
+---
+
+❌ DEMERIT 3: Slower Performance
+PROBLEM: forEach creates a function for each iteration (callback overhead)
+
+let arr = [1, 2, 3, 4, 5];
+
+// SLOW - forEach creates callback for each iteration
+arr.forEach((num) => {
+    console.log(num);
+});
+
+// FASTER - traditional for loop
+for (let i = 0; i < arr.length; i++) {
+    console.log(arr[i]);
+}
+
+Note: With large arrays (100,000+ elements), forEach is noticeably slower.
+
+---
+
+❌ DEMERIT 4: Cannot access outer 'this' in regular function
+PROBLEM: Regular functions inside forEach have their own 'this' context
+
+let obj = {
+    name: "Animesh",
+    numbers: [1, 2, 3],
+    print: function() {
+        this.numbers.forEach(function(num) {
+            console.log(this.name);  // ❌ 'this' is undefined/global, not the object
+        });
+    }
+};
+
+SOLUTION (use arrow function):
+let obj = {
+    name: "Animesh",
+    numbers: [1, 2, 3],
+    print: function() {
+        this.numbers.forEach((num) => {
+            console.log(this.name);  // ✅ 'this' correctly refers to obj
+        });
+    }
+};
+
+---
+
+❌ DEMERIT 5: Cannot directly modify array while iterating
+PROBLEM: Modifying array during forEach iteration can cause unexpected behavior
+
+let arr = [1, 2, 3, 4, 5];
+arr.forEach((num) => {
+    if (num === 2) {
+        arr.splice(arr.indexOf(num), 1);  // ❌ Skips elements, unpredictable
+    }
+});
+
+SOLUTION (use filter to create new array):
+let arr = [1, 2, 3, 4, 5];
+arr = arr.filter((num) => num !== 2);  // ✅ Creates new array without element
+
+---
+
+❌ DEMERIT 6: Returns undefined (cannot chain)
+PROBLEM: forEach returns undefined, so you can't chain other methods
+
+arr.forEach((num) => console.log(num)).map(x => x * 2);  
+// ❌ Error: Cannot read property 'map' of undefined
+
+SOLUTION (use map instead):
+arr.map((num) => num * 2).forEach(x => console.log(x));  
+// ✅ map returns array, can chain forEach
+
+---
+
+❌ DEMERIT 7: No access to array reference inside arrow function default parameter
+PROBLEM: Harder to work with in complex scenarios compared to traditional loops
+
+❌ forEach:
+arr.forEach((item, index) => {
+    // Must use array parameter to access it
+    if (index === arr.length - 1) {
+        console.log("Last item:", item);
+    }
+});
+
+✅ for loop:
+for (let i = 0; i < arr.length; i++) {
+    if (i === arr.length - 1) {
+        console.log("Last item:", arr[i]);
+    }
+}
+
+---
+
+❌ DEMERIT 8: Not suitable for asynchronous operations
+PROBLEM: forEach doesn't wait for async operations to complete
+
+// ❌ WRONG - won't work as expected:
+arr.forEach(async (num) => {
+    await someAsyncFunction(num);
+});
+
+// ✅ RIGHT - use for loop with async/await:
+for (let num of arr) {
+    await someAsyncFunction(num);
+}
+
+---
+
+📊 SUMMARY TABLE:
+
+| Problem           | forEach | for loop | Alternative |
+|-------------------|---------|----------|------------|
+| break/continue    | ❌ No   | ✅ Yes   | -          |
+| return value      | ❌ No   | ✅ Yes   | -          |
+| Performance       | ❌ Slow | ✅ Fast  | -          |
+| Chain methods     | ❌ No   | ✅ Yes   | map/filter |
+| Async/await       | ❌ No   | ✅ Yes   | -          |
+| Skip iteration    | ❌ No   | ✅ Yes   | filter()   |
+
+---
+
+✅ WHEN TO USE forEach:
+- Simple iteration over all elements
+- No need to break or return early
+- When code is easy to read is priority
+- Small arrays (performance not critical)
+
+❌ AVOID forEach WHEN:
+- You need break/continue
+- You need to return from outer function
+- Performance is critical (large arrays)
+- You need to chain methods
+- You need async/await support
+
+=================================================================
+### 8. MAP() SYNTAX AND EXAMPLES
+=================================================================
+
+📌 BASIC SYNTAX:
+
+let numbers = [1, 2, 3, 4, 5]
+numbers.map((element, index, array) => {
+    return transformedElement;
+});
+
+---
+
+📌 PARAMETERS:
+1. element - The current element being processed (REQUIRED)
+2. index - The index of the current element (OPTIONAL)
+3. array - The entire array being mapped (OPTIONAL)
+
+---
+
+📌 RETURN VALUE:
+Returns a NEW ARRAY with the results of calling the callback function on every element.
+IMPORTANT: map() does NOT modify the original array
+
+---
+
+📌 EXAMPLE 1: Simple transformation - Double each number
+let numbers = [1, 2, 3, 4, 5]
+
+let doubled = numbers.map((num) => {
+    return num * 2
+})
+
+console.log(doubled)  // [2, 4, 6, 8, 10]
+console.log(numbers)  // [1, 2, 3, 4, 5] - Original unchanged
+
+---
+
+📌 EXAMPLE 2: Square each number (shorthand)
+let nums = [1, 2, 3, 4, 5]
+let squared = nums.map(num => num * num)
+
+console.log(squared)  // [1, 4, 9, 16, 25]
+
+---
+
+📌 EXAMPLE 3: Convert strings to numbers
+let stringNumbers = ["10", "20", "30", "40"]
+let actualNumbers = stringNumbers.map(Number)
+
+console.log(actualNumbers)  // [10, 20, 30, 40]
+
+// Find values greater than 20
+let greaterThan20 = actualNumbers.filter((num) => num > 20)
+console.log(greaterThan20)  // [30, 40]
+
+---
+
+📌 EXAMPLE 4: Extract property from array of objects
+let users = [
+    { name: "Animesh", age: 25 },
+    { name: "John", age: 30 },
+    { name: "Sarah", age: 28 }
+]
+
+let names = users.map((user) => user.name)
+console.log(names)  // ["Animesh", "John", "Sarah"]
+
+---
+
+📌 EXAMPLE 5: Using index parameter
+let fruits = ["Apple", "Banana", "Orange"]
+let result = fruits.map((fruit, index) => {
+    return (index + 1) + ". " + fruit
+})
+
+console.log(result)
+// ["1. Apple", "2. Banana", "3. Orange"]
+
+---
+
+📌 EXAMPLE 6: Using all three parameters
+let arr = [10, 20, 30]
+let mapped = arr.map((element, index, array) => {
+    return `Index ${index}: ${element}, Array: [${array}]`
+})
+
+console.log(mapped)
+// ["Index 0: 10, Array: [10,20,30]", ...]
+
+---
+
+📌 EXAMPLE 7: Convert array of names to uppercase
+let names = ["animesh", "john", "sarah"]
+let upperNames = names.map(x => x.toUpperCase())
+
+console.log(upperNames)  // ["ANIMESH", "JOHN", "SARAH"]
+
+---
+
+📌 EXAMPLE 8: Calculate area from radius array
+let radii = [5, 10, 15]
+let areas = radii.map((radius) => {
+    return 3.14 * radius * radius
+})
+
+console.log(areas)  // [78.5, 314, 706.5]
+
+---
+
+📌 EXAMPLE 9: Create object array from values
+let ids = [1, 2, 3]
+let users = ids.map((id) => {
+    return { id: id, active: true }
+})
+
+console.log(users)
+// [{id: 1, active: true}, {id: 2, active: true}, {id: 3, active: true}]
+
+---
+
+📌 EXAMPLE 10: Chaining map with filter
+let numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+let result = numbers
+    .filter(num => num % 2 === 0)      // Get even numbers: [2, 4, 6, 8, 10]
+    .map(num => num * num)             // Square them: [4, 16, 36, 64, 100]
+
+console.log(result)  // [4, 16, 36, 64, 100]
+
+---
+
+📌 EXAMPLE 11: Nested map
+let matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+
+let doubled = matrix.map((row) => {
+    return row.map(num => num * 2)
+})
+
+console.log(doubled)
+// [[2, 4, 6], [8, 10, 12], [14, 16, 18]]
+
+---
+
+📊 COMPARISON: map() vs forEach
+
+| Feature        | map()                  | forEach           |
+|----------------|------------------------|-------------------|
+| Returns        | ✅ NEW ARRAY          | ❌ undefined      |
+| Modifies original | ❌ No              | ❌ No (by default) |
+| Chainable      | ✅ Yes                | ❌ No             |
+| Use case       | Transform data        | Perform actions   |
+| Returns value  | ✅ Yes                | ❌ No             |
+
+---
+
+📌 KEY DIFFERENCES:
+forEach: Used to DO something with each element
+map: Used to TRANSFORM elements into new array
+
+forEach:
+arr.forEach((item) => {
+    console.log(item)  // Just prints, no return
+})
+
+map:
+let result = arr.map((item) => {
+    return item * 2    // Returns new array with transformed values
+})
+
+---
+
+✅ WHEN TO USE map():
+- Transform array elements
+- Create new array without modifying original
+- Need to chain multiple methods
+- Extract properties from objects
+- Convert data types
+
+❌ WHEN TO USE forEach():
+- Just need to iterate and do something
+- Don't need a new array
+- Performing side effects (logging, database calls)
+
+---
+
+📌 REAL-WORLD EXAMPLES:
+
+// 1. API Response - Extract user IDs
+let response = [{id: 1, name: "A"}, {id: 2, name: "B"}]
+let userIds = response.map(user => user.id)
+
+// 2. Price calculation
+let prices = [100, 200, 300]
+let withTax = prices.map(price => price * 1.18)
+
+// 3. Data validation
+let emails = ["test@mail.com", "user@mail.com"]
+let isValid = emails.map(email => email.includes("@"))
+
+=================================================================
+### 9. FILTER() SYNTAX AND BEST EXAMPLES
+=================================================================
+
+📌 BASIC SYNTAX:
+array.filter((element, index, array) => {
+    return condition;  // true to keep, false to remove
+});
+
+---
+
+📌 KEY POINTS:
+✅ Returns a NEW ARRAY with elements that pass the test
+✅ Does NOT modify the original array
+✅ Callback must return boolean (true/false)
+✅ Only elements where condition is TRUE are included
+✅ Chainable with other methods (map, sort, etc.)
+
+---
+
+📌 EXAMPLE 1: Filter numbers greater than 20
+let numbers = [10, 15, 20, 25, 30, 35, 40]
+
+let greaterThan20 = numbers.filter((num) => num > 20)
+
+console.log(greaterThan20)  // [25, 30, 35, 40]
+console.log(numbers)  // [10, 15, 20, 25, 30, 35, 40] - Unchanged
+
+---
+
+📌 EXAMPLE 2: Filter even numbers
+let numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+let evenNumbers = numbers.filter((num) => num % 2 === 0)
+
+console.log(evenNumbers)  // [2, 4, 6, 8, 10]
+
+---
+
+📌 EXAMPLE 3: Filter odd numbers
+let numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+let oddNumbers = numbers.filter((num) => num % 2 !== 0)
+
+console.log(oddNumbers)  // [1, 3, 5, 7, 9]
+
+---
+
+📌 EXAMPLE 4: Filter strings by length
+let words = ["hello", "hi", "javascript", "code", "function"]
+
+let longWords = words.filter((word) => word.length > 4)
+
+console.log(longWords)  // ["hello", "javascript", "function"]
+
+---
+
+📌 EXAMPLE 5: Filter objects from array
+let users = [
+    { name: "Animesh", age: 25 },
+    { name: "John", age: 30 },
+    { name: "Sarah", age: 22 },
+    { name: "Mike", age: 28 }
+]
+
+let adults = users.filter((user) => user.age >= 25)
+
+console.log(adults)
+// [{name: "Animesh", age: 25}, {name: "John", age: 30}, {name: "Mike", age: 28}]
+
+---
+
+📌 EXAMPLE 6: Remove falsy values
+let values = [0, 1, false, 2, "", 3, null, undefined, 4, NaN, 5]
+
+let truthy = values.filter(Boolean)
+
+console.log(truthy)  // [1, 2, 3, 4, 5]
+
+---
+
+📌 EXAMPLE 7: Filter by property existence
+let students = [
+    { name: "Alice", score: 85 },
+    { name: "Bob" },  // No score
+    { name: "Charlie", score: 92 },
+    { name: "David" }  // No score
+]
+
+let withScores = students.filter((student) => student.score !== undefined)
+
+console.log(withScores)
+// [{name: "Alice", score: 85}, {name: "Charlie", score: 92}]
+
+---
+
+📌 EXAMPLE 8: Filter unique values
+let numbers = [1, 2, 2, 3, 3, 3, 4, 5, 5]
+
+let unique = numbers.filter((num, index, arr) => arr.indexOf(num) === index)
+
+console.log(unique)  // [1, 2, 3, 4, 5]
+
+---
+
+📌 EXAMPLE 9: Chain filter with map
+let products = [
+    { name: "Laptop", price: 1000, inStock: true },
+    { name: "Mouse", price: 25, inStock: false },
+    { name: "Keyboard", price: 75, inStock: true },
+    { name: "Monitor", price: 300, inStock: true }
+]
+
+let inStockNames = products
+    .filter((product) => product.inStock)           // Filter in stock
+    .map((product) => product.name)                 // Get names only
+
+console.log(inStockNames)  // ["Laptop", "Keyboard", "Monitor"]
+
+---
+
+📌 EXAMPLE 10: Filter and calculate average
+let scores = [45, 78, 92, 55, 88, 76, 91, 60]
+
+let passingScores = scores.filter((score) => score >= 70)
+let average = passingScores.reduce((sum, score) => sum + score, 0) / passingScores.length
+
+console.log(passingScores)  // [78, 92, 88, 76, 91]
+console.log(average)  // 85
+
+---
+
+📌 EXAMPLE 11: Filter with complex condition
+let employees = [
+    { name: "Animesh", department: "IT", salary: 50000, experience: 3 },
+    { name: "John", department: "HR", salary: 40000, experience: 5 },
+    { name: "Sarah", department: "IT", salary: 60000, experience: 7 },
+    { name: "Mike", department: "Finance", salary: 55000, experience: 2 }
+]
+
+let highEarningIT = employees.filter((emp) => 
+    emp.department === "IT" && emp.salary > 55000
+)
+
+console.log(highEarningIT)
+// [{name: "Sarah", department: "IT", salary: 60000, experience: 7}]
+
+---
+
+📌 EXAMPLE 12: Filter using index parameter
+let arr = ["a", "b", "c", "d", "e"]
+
+let everyOther = arr.filter((item, index) => index % 2 === 0)
+
+console.log(everyOther)  // ["a", "c", "e"]
+
+---
+
+📌 EXAMPLE 13: Remove duplicates (advanced)
+let items = ["apple", "banana", "apple", "cherry", "banana", "date"]
+
+let noDuplicates = items.filter((item, index, arr) => 
+    arr.indexOf(item) === index
+)
+
+console.log(noDuplicates)  // ["apple", "banana", "cherry", "date"]
+
+---
+
+📌 EXAMPLE 14: Search/filter based on user input
+let products = ["Laptop", "Mouse", "Keyboard", "Monitor", "Headphones"]
+
+function searchProducts(query) {
+    return products.filter((product) => 
+        product.toLowerCase().includes(query.toLowerCase())
+    )
+}
+
+console.log(searchProducts("key"))    // ["Keyboard"]
+console.log(searchProducts("o"))      // ["Monitor", "Headphones"]
+
+---
+
+📌 EXAMPLE 15: Filter by date range
+let events = [
+    { name: "Event A", date: new Date(2026, 0, 15) },
+    { name: "Event B", date: new Date(2026, 5, 10) },
+    { name: "Event C", date: new Date(2026, 10, 20) }
+]
+
+let summerEvents = events.filter((event) => {
+    let month = event.date.getMonth()
+    return month >= 5 && month <= 7  // June to August
+})
+
+console.log(summerEvents)  // Events in summer months
+
+---
+
+📊 COMPARISON TABLE:
+
+| Method   | Purpose          | Returns    | Modifies Original |
+|----------|------------------|------------|------------------|
+| forEach  | Iterate/Action   | undefined  | No               |
+| map      | Transform        | New array  | No               |
+| filter   | Select/Remove    | New array  | No               |
+| reduce   | Aggregate        | Single val | No               |
+
+---
+
+📌 KEY DIFFERENCE: filter() vs map() vs forEach
+
+forEach - DO SOMETHING:
+arr.forEach((item) => console.log(item))
+
+map - TRANSFORM EACH ELEMENT:
+let doubled = arr.map((item) => item * 2)
+
+filter - SELECT ELEMENTS THAT MATCH:
+let filtered = arr.filter((item) => item > 10)
+
+---
+
+✅ WHEN TO USE filter():
+- Remove unwanted elements
+- Search/find matching items
+- Clean data (remove null, undefined, duplicates)
+- Get subset based on condition
+- Validation checks
+
+❌ WHEN NOT TO USE:
+- Just need to iterate (use forEach)
+- Need to transform every element (use map)
+- Need to get single value (use reduce)
+
+---
+
+📌 PERFORMANCE TIPS:
+✅ Use filter() for readable, functional code
+✅ Chain methods: filter().map().sort()
+✅ More efficient than for loop with manual filtering
+❌ Avoid nested filters if possible
+❌ Don't filter, then loop again (chain instead)
+
+=================================================================
+### 10. REDUCE() SYNTAX AND EXAMPLES
+=================================================================
+let num=[1,2,3,4,5,6]
+📌 BASIC SYNTAX:
+array.reduce((accumulator, currentValue, index, array) => {
+    return updatedAccumulator;
+}, initialValue);
+
+---
+
+📌 PARAMETERS:
+1. accumulator - Accumulated result from previous iterations (REQUIRED)
+2. currentValue - Current element being processed (REQUIRED)
+3. index - Index of current element (OPTIONAL)
+4. array - The entire array (OPTIONAL)
+5. initialValue - Initial value for accumulator (OPTIONAL, but recommended)
+
+---
+
+📌 RETURN VALUE:
+Returns a SINGLE VALUE (can be number, string, object, array, etc.)
+Does NOT modify the original array
+
+---
+
+📌 HOW REDUCE WORKS:
+1. Starts with initialValue (or first element if no initialValue)
+2. Calls callback for each element
+3. Accumulator carries the result to next iteration
+4. Returns final accumulated value
+
+---
+
+📌 EXAMPLE 1: Sum all numbers
+let numbers = [1, 2, 3, 4, 5]
+
+let sum = numbers.reduce((acc, num) => {
+    return acc + num
+}, 0)
+
+console.log(sum)  // 15
+
+// How it works:
+// Iteration 1: acc=0, num=1 → return 0+1=1
+// Iteration 2: acc=1, num=2 → return 1+2=3
+// Iteration 3: acc=3, num=3 → return 3+3=6
+// Iteration 4: acc=6, num=4 → return 6+4=10
+// Iteration 5: acc=10, num=5 → return 10+5=15
+
+---
+
+📌 EXAMPLE 2: Multiply all numbers
+let numbers = [2, 3, 4, 5]
+
+let product = numbers.reduce((acc, num) => acc * num, 1)
+
+console.log(product)  // 120
+
+---
+
+📌 EXAMPLE 3: Find maximum value
+let numbers = [10, 25, 8, 45, 30, 15]
+
+let max = numbers.reduce((acc, num) => {
+    return num > acc ? num : acc
+}, 0)
+
+console.log(max)  // 45
+
+---
+
+📌 EXAMPLE 4: Find minimum value
+let numbers = [10, 25, 8, 45, 30, 15]
+
+let min = numbers.reduce((acc, num) => {
+    return num < acc ? num : acc
+}, Infinity)
+
+console.log(min)  // 8
+
+---
+
+📌 EXAMPLE 5: Count occurrences
+let fruits = ["apple", "banana", "apple", "cherry", "banana", "apple"]
+
+let count = fruits.reduce((acc, fruit) => {
+    acc[fruit] = (acc[fruit] || 0) + 1
+    return acc
+}, {})
+
+console.log(count)
+// { apple: 3, banana: 2, cherry: 1 }
+
+---
+
+📌 EXAMPLE 6: Flatten array
+let nested = [[1, 2], [3, 4], [5, 6]]
+
+let flat = nested.reduce((acc, arr) => {
+    return acc.concat(arr)
+}, [])
+
+console.log(flat)  // [1, 2, 3, 4, 5, 6]
+
+---
+
+📌 EXAMPLE 7: Convert array to object
+let users = [
+    { id: 1, name: "Animesh" },
+    { id: 2, name: "John" },
+    { id: 3, name: "Sarah" }
+]
+
+let userMap = users.reduce((acc, user) => {
+    acc[user.id] = user.name
+    return acc
+}, {})
+
+console.log(userMap)
+// { 1: "Animesh", 2: "John", 3: "Sarah" }
+
+---
+
+📌 EXAMPLE 8: Calculate average
+let scores = [85, 90, 78, 92, 88]
+
+let average = scores.reduce((acc, score) => acc + score, 0) / scores.length
+
+console.log(average)  // 86.6
+
+---
+
+📌 EXAMPLE 9: Group by property
+let students = [
+    { name: "Animesh", grade: "A" },
+    { name: "John", grade: "B" },
+    { name: "Sarah", grade: "A" },
+    { name: "Mike", grade: "B" }
+]
+
+let grouped = students.reduce((acc, student) => {
+    if (!acc[student.grade]) {
+        acc[student.grade] = []
+    }
+    acc[student.grade].push(student.name)
+    return acc
+}, {})
+
+console.log(grouped)
+// { A: ["Animesh", "Sarah"], B: ["John", "Mike"] }
+
+---
+
+📌 EXAMPLE 10: Chain reduce with other methods
+let numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+let result = numbers
+    .filter(num => num % 2 === 0)      // [2, 4, 6, 8, 10]
+    .map(num => num * 2)               // [4, 8, 12, 16, 20]
+    .reduce((acc, num) => acc + num, 0) // 60
+
+console.log(result)  // 60
+
+---
+
+📌 EXAMPLE 11: Remove duplicates using reduce
+let items = ["apple", "banana", "apple", "cherry", "banana"]
+
+let unique = items.reduce((acc, item) => {
+    if (!acc.includes(item)) {
+        acc.push(item)
+    }
+    return acc
+}, [])
+
+console.log(unique)  // ["apple", "banana", "cherry"]
+
+---
+
+📌 EXAMPLE 12: Calculate total price with discount
+let cart = [
+    { name: "Laptop", price: 1000, quantity: 1 },
+    { name: "Mouse", price: 25, quantity: 2 },
+    { name: "Keyboard", price: 75, quantity: 1 }
+]
+
+let total = cart.reduce((acc, item) => {
+    return acc + (item.price * item.quantity)
+}, 0)
+
+console.log(total)  // 1125
+
+---
+
+📌 EXAMPLE 13: Build a sentence
+let words = ["Hello", "World", "from", "JavaScript"]
+
+let sentence = words.reduce((acc, word, index) => {
+    return acc + (index === 0 ? "" : " ") + word
+}, "")
+
+console.log(sentence)  // "Hello World from JavaScript"
+
+---
+
+📌 EXAMPLE 14: Compose functions (advanced)
+let add = (x, y) => x + y
+let multiply = (x, y) => x * y
+let subtract = (x, y) => x - y
+
+let functions = [add, multiply, subtract]
+
+let value = 10
+let result = functions.reduce((acc, func) => {
+    return func(acc, 2)
+}, value)
+
+console.log(result)  // 36
+// ((10 + 2) * 2) - 2 = 36
+
+---
+
+📌 EXAMPLE 15: Track state through iterations
+let numbers = [1, 2, 3, 4, 5]
+
+let result = numbers.reduce((acc, num, index) => {
+    acc.sum += num
+    acc.count += 1
+    acc.avg = acc.sum / acc.count
+    return acc
+}, { sum: 0, count: 0, avg: 0 })
+
+console.log(result)
+// { sum: 15, count: 5, avg: 3 }
+
+---
+
+📊 COMPARISON TABLE:
+
+| Method   | Purpose          | Returns       | Use Case |
+|----------|------------------|---------------|----------|
+| forEach  | Iterate/Action   | undefined     | Do something |
+| map      | Transform        | New array     | Transform each |
+| filter   | Select/Remove    | New array     | Filter items |
+| reduce   | Aggregate        | Single value  | Combine into one |
+
+---
+
+📌 KEY DIFFERENCES:
+
+forEach - Loop through all:
+arr.forEach((item) => console.log(item))
+
+map - Transform all → NEW ARRAY:
+arr.map((item) => item * 2)
+
+filter - Keep matching → NEW ARRAY:
+arr.filter((item) => item > 10)
+
+reduce - Combine all → SINGLE VALUE:
+arr.reduce((acc, item) => acc + item, 0)
+
+---
+
+✅ WHEN TO USE reduce():
+- Sum/multiply/aggregate values
+- Convert array to object
+- Flatten nested arrays
+- Group items by property
+- Count occurrences
+- Calculate totals
+- Combine multiple operations
+
+❌ WHEN NOT TO USE:
+- Just need to iterate (use forEach)
+- Need new array with transformed items (use map)
+- Need to filter items (use filter)
+- Simple operations (use for loop)
+
+---
+
+📌 REDUCE TIPS:
+
+✅ Always provide initialValue for safety
+✅ Accumulator can be any type (number, string, object, array)
+✅ Chainable with other array methods
+✅ More efficient than multiple loops
+✅ Functional programming pattern
+
+❌ Don't forget initialValue for new objects/arrays
+❌ Don't mutate original array inside reduce
+❌ Keep logic simple for readability
+
+========================================
+
+// // ==================== EXAMPLE 1: Simple forEach ====================
+// let x = [1, 2, 3, 4, 5]
+// x.forEach((c) => {
+//     console.log(c)
+// })
+
+// ==================== EXAMPLE 2: Print values greater than 2 ====================
+// let arr = [1, 2, 3, 4, 5]
+// arr.forEach((num) => {
+//     if (num > 2) {  
+//         console.log(num)
+// }
+// else {    console.log(num + " is not greater than 2")
+// }
+// })
+
+// // ==================== EXAMPLE 3: Square each number ====================
+// let numbers = [1, 2, 3, 4, 5]
+// numbers.forEach((n) => {
+//     console.log(n * n)
+// })
+
+// // ==================== EXAMPLE 4: Using index and array parameters ====================
+// let fruits = ["Apple", "Banana", "Orange", "Mango"]
+// fruits.forEach((fruit, index) => {
+//     console.log(index + ": " + fruit)
+// })
+
+// // ==================== EXAMPLE 5: Sum all numbers ====================
+// let values = [10, 20, 30, 40, 50]
+// let sum = 0
+// values.forEach((val) => {
+//     sum = sum + val
+// })
+// console.log("Total Sum:", sum)
+
+// // ==================== EXAMPLE 6: Count elements ====================
+// let items = ["a", "b", "c", "d"]
+// let count = 0
+// items.forEach(() => {
+//     count++
+// })
+// console.log("Total items:", count)
+
+// // ==================== EXAMPLE 7: Filter and print even numbers ====================
+// let nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+// nums.forEach((num) => {
+//     if (num % 2 === 0) {
+//         console.log("Even:", num)
+//     }
+// })
+
+// // ==================== EXAMPLE 8: Transform and print ====================
+// let words = ["hello", "world", "javascript"]
+// words.forEach((word) => {
+//     console.log(word.toUpperCase())
+// })
+
+// // ==================== EXAMPLE 9: Using all three parameters ====================
+// let data = [100, 200, 300]
+// data.forEach((value, index, array) => {
+//     console.log(`Index ${index}: Value ${value}, Array: [${array}]`)
+// })
+
+// // ==================== EXAMPLE 10: forEach with objects in array ====================
+// let users = [
+//     { name: "Animesh", age: 25 },
+//     { name: "John", age: 30 },
+//     { name: "Sarah", age: 28 }
+// ]
+
+// users.forEach((user) => {
+//     console.log(user.name + " is " + user.age + " years old")
+// })
+=============================
+
+let numbers = [1, 2, 3, 4, 5]
+let newArr=numbers.forEach((n) => {
+    console.log(n * n)
+})
+console.log("New array from forEach:", newArr)  // forEach returns undefined
+console.log("Original array:", numbers)  // Original array remains unchanged
+
+===============================
+
+INTERVIEW Q&A
+  ─────────────
+  Q: What is the difference between function declaration and function expression?
+  A: Function declarations are hoisted completely — they can be called before the
+     line they appear. Expressions are only hoisted as undefined (var) or not at all
+     (let/const) — you cannot call them before the assignment.
+
+  Q: What is hoisting?
+  A: Before execution, the JavaScript engine scans for declarations and "hoists" them
+     to the top of their scope. var variables get initialized as undefined;
+     function declarations get hoisted with their full body; let/const are hoisted
+     but stay uninitialized (Temporal Dead Zone) until the declaration line.
+
+  Q: What is a named function expression? Why use it?
+  A: A function expression with a name: const f = function myFn() {}
+     The name 'myFn' is only visible INSIDE the function (useful for self-reference
+     in recursion). Outside, you can only use 'f'. Also helps with stack traces.
+
+
+INTERVIEW Q&A
+  ─────────────
+  Q: What is the syntax for an arrow function that returns an object literal?
+  A: Wrap the object in parentheses: const fn = x => ({ key: x });
+     Without parens, the { } is treated as a function body block, not an object.
+
+  Q: List 3 differences between arrow and regular functions.
+  A: 1. 'this': arrow is lexical (from outer scope); regular is dynamic (from caller)
+     2. 'arguments': arrow has none; regular has its own 'arguments' object
+     3. Constructor: arrow cannot be called with 'new'; regular can
+
+  MCQ:
+  Q: const f = x => { value: x }; f(5) returns?
+  a) {value:5}   b) undefined   c) 5   d) Error
+  Answer: b — { value: x } is treated as a block with a label, returns undefined.
+  Fix: const f = x => ({ value: x });
+
+  One-Word / Short:
+  Q: Arrow 'this' is bound at?                      A: Definition time (lexical)
+  Q: Arrow function has 'arguments' object?         A: No
+  Q: Can arrow function be used with 'new'?         A: No
+  Q: Return object literal from arrow — wrap in?    A: Parentheses ()
+*/
+q: "1. What is the difference between function declaration and function expression? What is hoisting?",
+    a: `Declaration: function fn() {} — fully hoisted (can call before definition).
+       Expression: const fn = function() {} — not callable before assignment.
+       Hoisting: JS engine scans for declarations first (before executing).
+       var → initialized as undefined. function declaration → full body hoisted.
+       let/const → hoisted but in Temporal Dead Zone (TDZ) — ReferenceError if accessed early.`
+  },
+  {
+    q: "2. What are all the differences between arrow functions and regular functions?",
+    a: `1. 'this': arrow = lexical (from outer scope); regular = dynamic (from caller)
+       2. 'arguments': arrow has none; regular has 'arguments' object
+       3. constructor: arrow cannot use 'new'; regular can
+       4. prototype: arrow has no .prototype; regular has one
+       5. implicit return: arrow supports it for single expression; regular doesn't
+       6. naming: arrow is always anonymous; regular can be named
+       7. hoisting: arrow (as expression) not hoisted; declaration is`
