@@ -1545,3 +1545,42 @@ q: "1. What is the difference between function declaration and function expressi
        5. implicit return: arrow supports it for single expression; regular doesn't
        6. naming: arrow is always anonymous; regular can be named
        7. hoisting: arrow (as expression) not hoisted; declaration is`
+
+       let name=["Jack","Shilpa","Amit"]
+
+let name1 =name.map((val)=>{
+    let newName=val.split("").reverse().join("")
+    return newName
+    
+})
+console.log(name1)
+
+
+let name = ["Jack", "Shilpa", "Amit", "missiisppi"]
+
+let largestWord = name
+    .map(word => ({ word: word, length: word.length }))
+    .reduce((max, current) => current.length > max.length ? current : max);
+
+console.log("Largest word:", largestWord.word); // Output: missiisppi
+
+
+let name = ["Jack", "Shilpa", "Amit", "missiisppi"]
+
+let largestWord = name[0]; // Start with the first word
+
+for (let word of name) {
+    if (word.length > largestWord.length) {
+        largestWord = word;
+    }
+}
+
+console.log("Largest word:", largestWord); // Output: missiisppi
+
+let name = ["Jack", "Shilpa", "Amit", "missiisppi"]
+
+let largestWord = name.reduce((max, word) => 
+    word.length > max.length ? word : max
+);
+
+console.log("Largest word:", largestWord); // Output: missiisppi
