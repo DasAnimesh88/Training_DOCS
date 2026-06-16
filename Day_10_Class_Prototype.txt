@@ -1,0 +1,356 @@
+WHAT ARE PROTOTYPES?
+==================
+Prototypes are objects from which other objects inherit properties and methods.
+Every JavaScript object has a prototype. When you access a property/method on 
+an object, JavaScript first looks for it on that object. If not found, it looks 
+on its prototype, then on the prototype's prototype, and so on. This is called 
+the PROTOTYPE CHAIN.
+
+KEY CONCEPTS:
+- Every object has a prototype (internal [[Prototype]])
+- Prototypes allow objects to inherit properties and methods
+- The prototype chain enables inheritance
+- Functions have a 'prototype' property used to create new objects
+
+const person = {
+  name: "Alice",
+  address: {
+    city: "Mumbai",
+    country: "India"
+  }
+};
+undefined
+person 
+{name: 'Alice', address: {…}}address: {city: 'Mumbai', country: 'India'}
+name: "Alice"[[Prototype]]: Objectconstructor: ƒ Object()hasOwnProperty: ƒ hasOwnProperty()isPrototypeOf: 
+ƒ isPrototypeOf()propertyIsEnumerable: ƒ propertyIsEnumerable()toLocaleString: ƒ toLocaleString()toString:
+ ƒ toString()valueOf: ƒ valueOf()__defineGetter__:
+  ƒ __defineGetter__()length: 2name: "__defineGetter__"arguments: 
+  (...)caller: (...)[[Prototype]]: ƒ ()[[Scopes]]: Scopes[0]__defineSetter__:
+ ƒ __defineSetter__()__lookupGetter__: ƒ __lookupGetter__()__lookupSetter__: ƒ __lookupSetter__()__proto__: (...)get __proto__: ƒ
+  __proto__()set __proto__: ƒ __proto__()
+
+  // Creating a simple object
+const person = {
+  name: 'John',
+  greet: function() {
+    console.log('Hello, I am ' + this.name);
+  }
+};
+
+console.log(person.toString());  // Inherited from Object.prototype
+
+==========================================
+
+const employee = {
+    calcTax() {
+        console.log("Tax rate is 10%");
+    },
+
+    greet() {
+        console.log("Welcome Employee");
+    }
+};
+
+const animesh = {
+    name: "Animesh",
+    salary: 100000
+};
+
+console.log(animesh.name);
+console.log(animesh.calcTax());
+
+==========================
+
+const employee = {
+    calcTax() {
+        console.log("Tax rate is 10%");
+    },
+
+    greet() {
+        console.log("Welcome Employee");
+    }
+};
+
+const animesh = {
+    name: "Animesh",
+    salary: 100000
+};
+
+console.log(animesh.name);
+
+
+Prototype inheritance 
+
+__proto__ (dunder proto/dunder method ):use to set a protype
+  - Internal reference to the object's prototype
+  - Used for the prototype chain lookup
+  - Should not be used in production code
+
+
+  
+animesh.__proto__ = employee;
+
+animesh.greet();
+animesh.calcTax();
+
+employee.__proto__=animesh
+comsole.log(employee.salary)
+
+====================================
+
+const employee = {
+    calcTax() {
+        console.log("Tax rate is 10%");
+    },
+  name: "cccc",
+    greet() {
+        console.log("Welcome Employee");
+    }
+};
+
+const animesh = {
+    name: "Animesh",
+    salary: 100000,
+    greet() {
+        console.log("Welcome Employee inside ANimesh objecyt");
+    }
+};
+
+// Prototype inheritance
+animesh.__proto__ = employee;
+animesh.greet()
+
+whenever both parent and child have same methods or variable ir will always call its own method ..
+
+
+=====================================================
+
+class 
+
+What is a Class?
+
+A class is a blueprint/template for creating objects.
+
+Think of it like:
+
+Class = House Design
+Object = Actual House
+
+The class defines:
+
+Properties (variables/state)
+Methods (functions/behavior)
+
+Basic Syntax
+class MyClass {
+properties 
+methods
+
+
+}
+
+class MyClass {
+
+    constructor() {
+        // initialization code
+    }
+
+    myMethod() {
+        console.log("Hello");
+    }
+}
+
+object creaation - new MyClass()
+
+let form1 =new MyClass()
+let form2 =new MyClass()
+
+multiple objct we can create from a class
+
+============================
+Real Example: Student Class
+class Student {
+
+    constructor(name, age) {
+        this.name1 = name;
+        this.age1 = age;
+        console.log("Hello There)
+    }
+
+    study() {
+        console.log(`${this.name} is studying`);
+    }
+
+    introduce() {
+        console.log(`My name is ${this.name} and I am ${this.age} years old`);
+    }
+}
+
+let s1 = new Student();
+
+
+==========================
+
+what is class and how to create an object 
+
+hot to invoke a constructor
+
+what is ocnstructor 
+
+class Student {
+
+    constructor(name, age) {
+        this.name1 = name;
+        this.age1 = age;
+        console.log("Hello There")
+        console.log(this.name1)
+    }
+
+    study() {
+        console.log(`${this.name1} is studying`);
+    }
+
+    introduce() {
+        console.log(`My name is ${this.name1} and I am ${this.age1} years old`);
+    }
+}
+
+let s1 = new Student("Hari", 20);
+s1.study();
+s1.introduce();
+
+let s2 = new Student("Ram", 22);
+s2.study();
+s2.introduce();
+
+=====================================================
+Toyota (Class)
+
+Cars produced from Toyota:
+├── Fortuner (Object)
+├── Innova (Object)
+├── Camry (Object)
+├── Corolla (Object)
+└── Glanza (Object)
+
+The Toyota class defines common properties and behaviors of all Toyota cars.
+
+JavaScript Example
+class ToyotaCar {
+
+    constructor(model, color, price) {
+        this.model = model;
+        this.color = color;
+        this.price = price;
+    }
+    setBrand(brand){
+        this.brand=brand
+    }
+
+    start() {
+        console.log(`${this.model} is starting`);
+    }
+
+    stop() {
+        console.log(`${this.model} is stopping`);
+    }
+
+    displayDetails() {
+        console.log(`Model: ${this.model}`);
+        console.log(`Color: ${this.color}`);
+        console.log(`Price: ₹${this.price}`);
+    }
+}
+
+// Objects (Instances)
+let fortuner = new ToyotaCar("Fortuner", "Black", 4500000);
+let innova = new ToyotaCar("Innova Hycross", "White", 3000000);
+let camry = new ToyotaCar("Camry", "Silver", 5000000);
+
+fortuner.displayDetails();
+fortuner.start();
+fortuner.setBrand("Fortuner" )
+
+Output
+Model: Fortuner
+Color: Black
+Price: ₹4500000
+Fortuner is starting
+
+Class: ToyotaCar
+│
+├── Properties
+│     ├── model
+│     ├── color
+│     └── price
+│
+├── Methods
+│     ├── start()
+│     ├── stop()
+│     └── displayDetails()
+│
+└── Objects
+      ├── fortuner
+      ├── innova
+      └── camry
+
+
+      What is a Constructor?
+
+A constructor is a special method inside a class that runs automatically 
+whenever an object is created using new.
+
+class MyClass {
+    constructor() {
+        console.log("Object Created");
+    }
+}
+
+let obj = new MyClass();
+Output
+Object Created
+
+The constructor ran automatically for both objects.
+
+to initialize the object at object creation time
+
+==================================
+
+Why Constructor is Used
+
+Without constructor:
+
+class ToyotaCar {
+}
+
+let car1 = new ToyotaCar();
+
+car1.model = "Fortuner";
+car1.color = "Black";
+
+With constructor:
+
+class ToyotaCar {
+
+    constructor(model, color) {
+        this.model = model;
+        this.color = color;
+    }
+}
+
+let car1 = new ToyotaCar("Fortuner", "Black");//this initializes object
+
+Interview Questions
+Q1. When is a constructor called?
+
+Answer:
+A constructor is automatically invoked when an object is created using the new keyword.
+
+constrcuor is a method but its name is constrcuotr
+it will automatcially get executed 
+
+
+Can a class have multiple constructors?
+
+Answer: No.
