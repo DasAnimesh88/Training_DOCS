@@ -1,0 +1,563 @@
+
+inheritance 
+
+class Parent {
+    greet() {
+        console.log("Hello from Parent");
+    }
+}
+
+class Child extends Parent {
+    hello(){
+        console.log("Hello from Child");
+    }
+
+}
+
+let c1= new Child();
+c1.hello();
+c1.greet();
+
+
+class Toyota {
+    startEngine() {
+        console.log("Engine Started");
+    }
+
+    stopEngine() {
+        console.log("Engine Stopped");
+    }
+}
+
+
+class Fortuner extends Toyota {
+
+    drive() {
+        console.log("Driving Fortuner");
+    }
+    
+}
+
+const car = new Fortuner();
+
+car.startEngine();
+car.stopEngine();
+
+Output:
+
+Engine Started
+Engine Stopped
+
+========================
+
+method overiding 
+
+
+class Toyota {
+    startEngine() {
+        console.log("Engine Started");
+    }
+
+    stopEngine() {
+        console.log("Engine Stopped");
+    }
+}
+
+class Fortuner extends Toyota {
+
+    drive() {
+        console.log("Driving Fortuner");
+    }
+
+    stopEngine() {
+        console.log("Engine Stopped fortuner");
+    }
+    
+}
+
+const car = new Fortuner();
+
+car.startEngine();
+car.stopEngine();
+
+Output:
+
+Engine Started
+Engine Stopped fortuner
+
+
+============================================
+
+construcor in inheritance
+
+class Toyota {
+    constructor(model) {
+        this.model = model;
+    }
+
+    startEngine() {
+        console.log("Engine Started");
+    }
+
+    stopEngine() {
+        console.log("Engine Stopped");
+    }
+}
+
+let car =new Toyota("Camry");
+console.log(car.model);
+
+class Fortuner extends Toyota {
+
+    constructor(year) {
+       
+        this.year = year;
+    }
+}
+let fortuner = new Fortuner(2020);
+
+======================================
+
+
+
+class Toyota {
+    constructor(model) {
+        console.log("Inside parent Constructor");
+        this.model = model;
+    }
+
+    startEngine() {
+        console.log("Engine Started");
+    }
+
+    stopEngine() {
+        console.log("Engine Stopped");
+    }
+}
+
+class Fortuner extends Toyota {
+
+    constructor(year) {
+        console.log("Inside Fortuner Constructor");
+        super("Fortuner");
+        this.year = year;
+        console.log("Exiting Fortuner Constructor");
+    }
+}
+let fortuner = new Fortuner(2020);
+
+
+-------------------------------------------
+
+The super keyword in JavaScript is used to call methods and access properties of a parent class. It's primarily used in class inheritance scenarios.
+
+Key Uses:
+1. Calling Parent Constructor
+class Animal {
+  constructor(name) {
+    this.name = name;
+  }
+}
+
+class Dog extends Animal {
+  constructor(name, breed) {
+    super(name);  // Calls parent constructor
+    this.breed = breed;
+  }
+}
+2. Calling Parent Methods
+class Animal {
+  speak() {
+    return "Some sound";
+  }
+}
+
+class Dog extends Animal {
+  speak() {
+    return super.speak() + " - Woof!";
+  }
+}
+
+const dog = new Dog();
+console.log(dog.speak()); // "Some sound - Woof!"
+3. Accessing Parent Properties
+class Animal {
+  speak() {
+    return "Some sound";
+  }
+}
+
+class Dog extends Animal {
+  speak() {
+    return super.speak() + " - Woof!";
+  }
+}
+
+const dog = new Dog();
+console.log(dog.speak()); // "Some sound - Woof!"
+Important Rules:
+Must call super() first in a child constructor before using this
+Only works in classes, not with prototype-based inheritance
+Required in subclass constructor if the parent class has a constructor
+Cannot be used outside of a class that extends another class
+Since you're working on Day_11 (Closure & Inheritance), super is a key feature for modern class-based inheritance in JavaScript!
+
+=====================================================
+
+When the Parent class and Child class have a method with the same name, JavaScript invokes the Child class method.
+
+Example from the image
+class Person {
+    eat() {
+        console.log("eat");
+    }
+
+    sleep() {
+        console.log("sleep");
+    }
+
+    work() {
+        console.log("do nothing");
+    }
+}
+
+class Engineer extends Person {
+    work() {
+        console.log("solve problems, build something");
+    }
+}
+
+const engObj = new Engineer();
+
+engObj.eat();    // inherited from Person
+engObj.sleep();  // inherited from Person
+engObj.work();   // overridden method
+Output
+eat
+sleep
+solve problems, build something
+What happened?
+
+Engineer inherits from Person.
+
+class Engineer extends Person
+
+Both classes contain a work() method:
+
+// Parent
+work() {
+    console.log("do nothing");
+}
+
+// Child
+work() {
+    console.log("solve problems, build something");
+}
+
+When JavaScript finds engObj.work(), it first checks the Engineer class. 
+Since Engineer already has a work() method, it uses that method and ignores the parent's version.
+
+Toyota Example
+class Toyota {
+    start() {
+        console.log("Toyota Engine Started");
+    }
+
+    info() {
+        console.log("Generic Toyota Car");
+    }
+}
+
+class Fortuner extends Toyota {
+    info() {
+        console.log("Toyota Fortuner SUV");
+    }
+}
+
+const car = new Fortuner();
+
+car.start(); // inherited
+car.info();  // overridden
+Output
+Toyota Engine Started
+Toyota Fortuner SUV
+If you want both Parent and Child methods to run
+
+Use super.methodName():
+
+class Person {
+    work() {
+        console.log("do nothing");
+    }
+}
+
+class Engineer extends Person {
+    work() { 
+        super.work(); // call parent method
+        console.log("solve problems, build something");
+    }
+}
+
+const eng = new Engineer();
+eng.work();
+Output
+do nothing
+solve problems, build something
+
+=========================================
+
+Interview Question: What is Method Overriding?
+
+Answer: Method Overriding occurs when a child class provides its own implementation of a method that already 
+exists in the parent class. When the method is called using the child object, the child's version is executed.
+
+What is super?
+
+super is used inside a child class to access the parent class's:
+
+Constructor
+Methods
+1. Calling Parent Constructor
+Parent Class
+class Person {
+    constructor(name) {
+        this.name = name;
+    }
+}
+Child Class
+class Engineer extends Person {
+    constructor(name, skill) {
+        super(name); // Calls Parent Constructor
+
+        this.skill = skill;
+    }
+
+    display() {
+        console.log(this.name);
+        console.log(this.skill);
+    }
+}
+
+const emp = new Engineer("Animesh", "Automation Testing");
+
+emp.display();
+Output
+Animesh
+Automation Testing
+Flow
+Engineer Object Created
+        |
+        V
+super(name)
+        |
+        V
+Person Constructor Executes
+        |
+        
+
+    ======================
+
+
+    Interview Definition
+
+The super keyword is used in a child class to access and invoke the 
+constructor and methods of its parent class. It must be called before using this inside a derived class constructor.
+
+=====================
+lexical scopr 
+
+
+let globalVar = "I'm global";
+
+function outer() {
+  let outerVar = "I'm in outer";
+  
+  function inner() {
+    let innerVar = "I'm in inner";
+    console.log(innerVar);   // ✓ Can access inner scope
+    console.log(outerVar);   // ✓ Can access outer scope
+    console.log(globalVar);  // ✓ Can access global scope
+  }
+  
+  inner();
+  console.log(innerVar);  // ✗ ERROR - cannot access inner scope
+}
+
+outer();
+
+====================
+
+let a = "Level 1";
+
+function level2() {
+  let b = "Level 2";
+  
+  function level3() {
+    let c = "Level 3";
+    console.log(a); // Finds 'a' by going up the scope chain
+    console.log(b); // Finds 'b' by going up the scope chain
+    console.log(c); // Finds 'c' in current scope
+  }
+  
+  level3();
+}
+
+level2();
+
+============================
+let name = "Global";
+
+function test() {
+  let name = "Function";  // This 'name' shadows the global 'name'
+  
+  console.log(name);  // "Function" (uses local version)
+}
+
+test();
+console.log(name);  // "Global" (global version unchanged)
+
+++++++++++++++++++++++++++
+function outer(x) {
+  return function inner(y) {
+    return x + y;  // Remembers 'x' from outer scope
+  };
+}
+
+const add5 = outer(5);
+console.log(add5(3));    // 8 (x=5, y=3)
+console.log(add5(10));   // 15 (x=5, y=10)
+
+
+Inner functions can access outer variables ✓
+Outer functions cannot access inner variables ✗
+Variables are looked up from innermost to outermost scope
+Determined at write-time (where code is written), not call-time
+Creates closures - functions remember their lexical environment
+
+
+
+================================
+
+closure 
+
+A Closure is created when a function remembers and can access
+ variables from its outer function even after the outer function has finished executing.
+
+
+Closure is a combination of a function and the lexical environment in which it was created. It allows the inner function to access variables of the outer function even after the outer function has completed execution.
+
+Most Common Interview Question
+function outer() {
+    let x = 10;
+
+    return function inner() {
+        console.log(x);
+    };
+}
+
+const myFunction = outer();
+myFunction();
+
+Output
+
+10
+
+Why?
+
+Because inner() forms a closure and remembers x, although outer() has already finished executing.
+
+One-line Memory Trick
+
+Closure = Function + Remembered variables from its outer scope.
+
+
+
+function createBankAccount(initialBalance) {
+    let balance = initialBalance;
+
+    return function deposit(amount) {
+        balance += amount;
+        console.log("Current Balance:", balance);
+    };
+}
+
+const account = createBankAccount(1000);
+
+account(500); // Current Balance: 1500
+account(200); // Current Balance: 1700
+account(100); // Current Balance: 1800
+
+
+balance belongs to createBankAccount().
+Even after createBankAccount() finishes, the returned function still remembers balance.
+This remembering behavior is called Closure.
+Interview Definition
+
+Closure is a combination of a function and the lexical environment in which it was created. 
+It allows the inner function to access variables of the outer function even after the outer function has completed execution.
+
+
+=============================
+
+
+ What is a Closure?
+
+Answer:
+
+A closure is a combination of a function and the lexical environment in which it was created. 
+It allows a function to access variables from its outer scope even after the outer function has finished execution.
+
+Easy Way to Remember
+Parent Function
+      |
+      V
+Creates Variable
+      |
+      V
+Returns Child Function
+      |
+      V
+Child Function remembers Parent Variable
+
+That's a Closure.
+
+=========================
+
+1. Prototypes are the mechanism for inheritance in JavaScript
+2. Every object has a prototype (accessed via __proto__ or Object.getPrototypeOf())
+3. Functions have a .prototype property that serves as blueprint
+4. The prototype chain is how property/method lookup works
+5. hasOwnProperty() distinguishes own vs inherited properties
+6. ES6 classes use prototypes under the hood
+7. Use constructor functions or classes to create reusable objects
+8. Avoid modifying built-in object prototypes
+9. Object.create() allows explicit prototype assignment
+10. Understanding prototypes is key to JavaScript inheritance
+
+
+=====================================
+
+
+const student={
+    name:"John",
+    age:20,
+    greet:function(){
+        console.log("Hello, my name is " + this.name);
+    }
+}
+
+student["name"]="Jane"; // Changing the name property using bracket notation
+const greetFunction = student.greet;
+greetFunction();
+console.log("Hello, my name is " + student.name);
+console.log("Hello, my name is " + student["name"]); 
+console.log(typeof student); // This will log "object" because 'this' refers to the
+//  student object in this context.
+
+ternary operator is a shorthand way of writing an if-else statement. It takes three operands: a condition, an expression to execute if the condition is true, and an expression to execute if the condition is false. The syntax is as follows:
+condition ? expressionIfTrue : expressionIfFalse;
+give   an example of using the ternary operator in JavaScript:Sure! Here's an example of using the ternary operator in JavaScript:  
+```javascript
+const age = 18;
+const isAdult = age >= 18 ? true : false;
+```
