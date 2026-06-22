@@ -1,0 +1,604 @@
+callback hell → promise chains → async/await
+
+Synchronous
+
+javacript i synchrous
+
+console.log("A");
+console.log("B");
+console.log("C");
+
+Output:
+
+A
+B
+C
+
+Each line waits for the previous one to finish.
+
+API -Application programing interface
+
+
+
+Asynchronous JavaScript
+Some operations take time (API requests, file operations, timers, database calls).
+Instead of blocking the program, JavaScript can continue executing other code while waiting.
+
+console.log("A");
+console.log("B" ,API Call,5000 );
+console.log("C");
+A
+C
+B
+
+==========================
+console.log("A");
+
+setTimeout(() => {
+  console.log("B");
+}, 2000);
+
+console.log("C");
+
+
+setTimeout(()=>{
+   console.log("A"); 
+},5000)
+
+
+let hello=()=>{
+    console.log("A there"); 
+}
+setTimeout(hello,6000)
+
+Output:
+
+A
+C
+B
+
+The timer runs in the background, so the program doesn't stop at "A" waiting 2 seconds.
+
+===================================================
+
+How API works 
+
+What the drawing shows
+Your Code
+    |
+    |  API Request
+    v
+   API Server
+    ^
+    |
+    |  Data Response
+    |
+Your JavaScript code sends a request to an API.
+The API takes some time to process the request.
+The API sends data back.
+Your code receives the response and continues processing.
+Problem with Synchronous Execution
+
+If JavaScript waited synchronously for the API response:
+
+If JavaScript waited synchronously for the API response:
+
+const data = fetch("https://api.example.com/users");
+console.log(data);
+
+the browser would be blocked until the server responds.
+
+Send Request
+      ↓
+WAIT...
+WAIT...
+WAIT...
+Receive Data
+
+During this waiting period:
+
+UI may freeze
+User interactions are delayed
+Other code cannot proceed
+Asynchronous Solution
+
+Instead, JavaScript sends the request and continues executing other code.
+
+This code demonstrates one of the simplest examples of asynchronous behavior in JavaScript.
+
+function hello() {
+    console.log("hello");
+}
+
+setTimeout(hello, 2000);
+What happens?
+Step 1: Function is created
+function hello() {
+    console.log("hello");
+}
+
+The function is defined and stored in memory. Nothing is printed yet.
+
+Step 2: setTimeout() is called
+setTimeout(hello, 2000);
+
+This tells the browser:
+
+"Wait 2000 milliseconds (2 seconds), then execute the hello function."
+
+JavaScript does not stop here and wait for 2 seconds.
+
+Instead:
+
+setTimeout is registered.
+A timer starts in the browser environment (Web APIs).
+JavaScript continues executing any remaining code.
+
+==============================
+A callback is a function that is passed as an argument to another function.
+
+General pattern:
+
+function someFunction(callback) {
+    callback();
+}
+
+Here, callback is a function received by someFunction.
+
+Understanding the example
+function sum(a, b) {
+    console.log(a + b);
+}
+
+function calculator(a, b, sumCallback) {
+    sumCallback(a, b);
+}
+
+calculator(1, 2, sum);
+
+
+========================================
+
+Example 3: Arrow Function with setTimeout
+setTimeout(() => {
+    console.log("Hello after 2 seconds");
+}, 2000);
+
+
+
+function getData(dataId){
+console.log("data", dataId);
+}
+
+getData(1)
+getData(2)
+getData(3)
+
+now i print in data 1 after 3 sec print data 2 then after 3 sec print data 3 
+
+function getData(dataId) {
+    setTimeout(() => {
+        console.log("data", dataId);
+    }, 2000);
+}
+
+getData(1);
+getData(2);
+getData(3);
+
+======================================================
+
+
+call back hell 
+function getData(dataId, nextData) {
+    setTimeout(() => {
+        console.log("data", dataId);
+
+        if (nextData) {
+            nextData();
+        }
+    }, 2000);
+}
+
+getData(1, () => {
+    getData(2, () => {
+        getData(3);
+    });
+});
+
+
+function getData(dataId, nextData) {
+    setTimeout(() => {
+        console.log("data", dataId);
+
+        if (nextData) {
+            nextData();
+        }
+    }, 2000);
+}
+
+getData(1, () => {
+    console.log("Fetching Data 1");
+    getData(2, () => {
+        console.log("Fetching Data2");
+        getData(3,() => {
+        console.log("Fetching Data3");
+        getData(4)});
+
+    });
+});
+
+
+===================================
+
+
+Callback Hell Example
+
+Let's add more operations:
+
+getData(1, () => {
+    getData(2, () => {
+        getData(3, () => {
+            getData(4, () => {
+                getData(5, () => {
+                    console.log("All data loaded");
+                });
+            });
+        });
+    });
+});
+
+Notice the pyramid shape:
+
+getData(1, () => {
+    getData(2, () => {
+        getData(3, () => {
+            getData(4, () => {
+                getData(5, () => {
+                    ...
+                });
+            });
+        });
+    });
+});
+
+This is Callback Hell (Pyramid of Doom).
+
+Problems
+Hard to read
+Hard to debug
+Error handling becomes messy
+Difficult to maintain
+
+That's why JavaScript later introduced:
+
+
+==========================================
+
+
+promise came to resolve the issue of call back hell 
+
+ Think of a Promise as an online order on Amazon.
+When you place an order, Amazon doesn't give you the package immediately.
+
+Instead, Amazon says:
+
+"I promise I'll either deliver your package or tell you why I couldn't."
+
+Similarly in JavaScript:
+
+let orderPromise = new Promise((resolve, reject) => {
+    // order processing
+});
+
+There are 3 states of a Promise.
+
+1. Pending (Order Placed)
+
+You place an order.
+
+Order Status:
+Pending
+
+Amazon is checking:
+
+Is the item in stock?
+Is payment successful?
+Is delivery available?
+
+The result is not known yet.
+
+Promise state:
+
+Pending
+2. Fulfilled / Resolved (Order Delivered Successfully)
+
+Suppose everything goes well.
+
+Order Placed
+    ↓
+Packed
+    ↓
+Shipped
+    ↓
+Delivered
+
+Amazon fulfills its promise.
+
+Promise state:
+
+Fulfilled
+
+JavaScript:
+
+resolve("Your order has been delivered");
+
+
+==============================
+
+how to create promise 
+
+let promise =new Promise((resolve,reject)>={
+
+})
+
+
+
+function getData(dataID){
+    return new Promise((resolve,reject)=>{
+
+        setTimeout(() => {
+
+            console.log("data", dataId);
+
+            resolve("success");
+
+
+        })
+
+    })
+
+
+}
+
+let promise =getData(1)
+
+
+console.log(promise)
+
+==================================================================
+
+
+function getData(dataId){
+    return new Promise((resolve,reject)=>{
+
+        setTimeout(() => {
+
+            console.log("data", dataId);
+
+            resolve("success");
+
+
+        },3000)
+
+    })
+
+
+}
+
+let promise1 =getData(1)
+let promise2 =getData(2)
+
+
+
+console.log(promise1)
+console.log(promise2)
+
+
+====================================
+
+Using .then() - this will be used to do promise chain ,similar to callback chain 
+
+
+
+
+
+
+function getData(dataId){
+    return new Promise((resolve,reject)=>{
+
+        setTimeout(() => {
+
+            console.log("data", dataId);
+
+            resolve("success");
+
+
+        },3000)
+
+    })
+
+
+}
+let promise = getData(1);
+
+promise.then((res)=>{
+console.log("Result:", res);
+})
+
+================================
+
+now i want to print data 1 the after 4 sec data 2 then after 4 sec data 3 
+
+
+function getData(dataId){
+    return new Promise((resolve,reject)=>{
+
+        setTimeout(() => {
+
+            console.log("data", dataId);
+
+            resolve("success");
+
+
+        },3000)
+
+    })
+
+
+}
+let promise = getData(1);  ///promise variable 
+
+promise.then((res)=>{
+console.log("Result:", res);
+})
+
+============================
+
+for resolve always we use .then ()
+for reject we will use .catch
+
+function getData(dataId){
+    return new Promise((resolve,reject)=>{
+
+        setTimeout(() => {
+
+            console.log("data", dataId);
+
+            resolve("success");
+
+
+        },3000)
+
+    })
+
+
+}
+getData(1).then((res)=>{
+
+    console.log("Result:", res);
+
+})
+
+================================
+
+let promise = getData(1);
+
+promise.then((res) => {
+    console.log(res);
+});
+
+developers usually write:
+
+getData(1)
+    .then((res) => {
+        console.log(res);
+    })
+    .catch((err) => {
+        console.log(err);
+    });
+
+=========================================
+
+Promise chaining 
+
+
+function getData(dataId){
+    return new Promise((resolve,reject)=>{
+
+        setTimeout(() => {
+
+            console.log("data", dataId);
+
+            resolve("success");
+
+
+        },3000)
+
+    })
+
+}
+
+getData(1).then(()=>{
+    
+    return getData(2)
+}).then(()=>{
+    return getData(2)
+}).then(()=>{
+    return getData(3)
+})
+
+
+Multiple Promises (Promise Chaining)
+getData(1)
+    .then(() => {
+        return getData(2);
+    })
+    .then(() => {
+        return getData(3);
+    })
+    .then(() => {
+        console.log("All data fetched");
+    });
+
+    Calbacl code 
+
+    getData(1, () => {
+    getData(2, () => {
+        getData(3, () => {
+            getData(4, () => {
+                getData(5, () => {
+                    ...
+                });
+            });
+        });
+    });
+});
+
+to resolve the complexyti of promise chain we intoducted 
+
+This is the Promise-based replacement for callback hell. Later, the same code becomes even cleaner with async/await:
+
+
+asynch function getData(dataId){
+
+ await - this will be always used inside asynch function 
+ Await - this will pasue the execution of other line of code and wait for promise to return
+
+await getData(1);
+await getData(2);
+await getData(3);
+
+}
+
+
+=======================
+
+function getData(dataId) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            console.log("data", dataId);
+            resolve("success");
+        }, 2000);
+    });
+}
+
+getData(1)
+    .then(() => getData(2))
+    .then(() => getData(3))
+    .then(() => {
+        console.log("done");
+    })
+    .catch((err) => {
+        console.log(err);
+    });
+
+async function getAllData() {
+    await getData(1);
+    await getData(2);
+    await getData(3);
+
+    console.log("done");
+}
+
+
