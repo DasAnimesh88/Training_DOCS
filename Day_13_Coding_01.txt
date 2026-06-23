@@ -1,0 +1,240 @@
+//Reverse a String
+/**
+ * 
+ * "hello"
+
+``"olleh"
+ */
+
+
+function reverseString(str) {
+
+    return str.split("").reverse().join("");
+}
+
+
+let revOut=reverseString("hello");
+console.log(revOut);
+console.log(reverseString("hello"));
+
+=======================================
+//Reverse each word in a sentence
+/**
+ * 
+
+\
+"I love JavaScript"
+
+"I evol tpircSavaJ"
+
+
+ */
+
+
+
+function reverseWords(sentence) {
+        let words = sentence.split(" ");
+
+        let reversedWords = words.map(word => {
+            return word.split("").reverse().join("");
+        });
+        console.log(reversedWords);
+
+            return reversedWords.join(" ");
+}
+
+console.log(reverseWords("I love JavaScript"));
+
+=========================
+
+function reverseWords(sentence) {
+    return sentence
+        .split(" ")
+        .map(word => word.split("").reverse().join(""))
+        .join(" ");
+}
+
+console.log(reverseWords("I love JavaScript"));
+
+
+
+
+========================
+
+
+12345 → 54321
+
+function reverseNumber(num) {
+    return Number(
+        String(num).split("").reverse().join("")
+    );
+}
+
+console.log(reverseNumber(12345));  // Output: 54321
+console.log(reverseNumber(1200));   // Output: 21 (trailing zeros removed)
+
+=============================
+
+"I love JavaScript"
+
+"JavaScript love I"
+
+function revWord(word){
+
+    let newWord= word.split(" ").reverse()
+
+    console.log(newWord)
+
+
+}
+
+console.log( revWord("I love JavaScript"){
+)
+
+
+=====================================
+
+function revWord(word){
+
+    let newWord= word.split(" ").reverse()
+
+    console.log(newWord.join(" "))
+
+
+}
+
+console.log( revWord("I love JavaScript"))
+
+=============================
+
+A palindrome is a string that reads the same forwards and backwards.
+
+Examples
+
+"madam"    → true
+"racecar"  → true
+"hello"    → false
+
+function isPallindrome(str){
+    let newWord=str.split("").reverse().join("");
+    if(newWord===str){
+        console.log("it is pallindrome")
+    }
+    else{
+        console.log("it is not pallindrome")
+    }
+
+
+}
+
+console.log( isPallindrome("madam3e"))
+
+without if else
+
+function isPalindrome(str) {
+    return str === str.split("").reverse().join("");
+}
+
+console.log(isPalindrome("Madam")); // true
+console.log(isPalindrome("hello")); // false
+
+==================================
+
+function isPalindrome(str) {
+    return str.toLowerCase() === str.split("").reverse().join("").toLowerCase();
+}
+
+console.log(isPalindrome("Madam"));
+
+=================================================
+
+anagram
+Two strings are anagrams if they contain the same characters with the same frequency, 
+regardless of order.
+
+"listen"  ↔ "ilents"   → true
+"race"    ↔ "care"     → true
+
+"raec"    ↔ "arce"     → true
+"hello"   ↔ "world"    → false
+
+
+let fruits = ["banana", "apple", "orange"];
+
+fruits.sort();
+
+console.log(fruits);
+
+let fruits = ["b", "a", "c", "d", "e"];
+
+fruits.sort();
+
+console.log(fruits);
+
+function isAnagram(str1,str1){
+
+    return str1.split("").sort().join("")===str2.split("").sort().join("")
+
+
+}
+
+
+console.log(isAnagram("silent","listen"));
+
+
+========================================
+remove duplicate characters from "hello" and get:
+
+function removeDuplicate(str){
+
+    return str.split("").filter((char,index,arr)=>{
+
+        arr.indexOf(char)===index
+
+
+
+    }).join("")
+
+
+}
+
+console.log(removeDuplicate("Hello"))
+
+
+function removeDuplicates(str) {
+    return str
+        .split("")
+        .filter((char, index, arr) => arr.indexOf(char) === index)
+        .join("");
+}
+
+console.log(removeDuplicates("hello")); // "helo"
+
+===================================================
+
+
+let arr=[1,2,3,45,5,6,7,8,9,10]
+let x=arr.filter((wor,index,arr)=>{
+    return wor>35
+
+
+})
+
+console.log(x)
+
+
+============================================
+
+
+function removeDuplicates(str) {
+    return str
+        .filter((char, index, arr) => arr.indexOf(char) === index)
+        .join(" ");
+}
+
+console.log(removeDuplicates(["hello","Banana"])); // "helo"
+
+===========================
+
+
+

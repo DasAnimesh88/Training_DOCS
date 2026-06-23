@@ -1,0 +1,111 @@
+function getData(dataId, nextData) {
+    setTimeout(() => {
+        console.log("data", dataId);
+        if (nextData) {
+            nextData();
+        }
+    }, 2000);
+}
+
+
+callback hell
+
+getData(1, () => {
+    getData(2, () => {
+        getData(3, () => {
+            getData(4, () => {
+                getData(5, () => {
+                    console.log("All data loaded");
+                });
+            });
+        });
+    });
+});
+
+
+Promise 
+
+function getData(dataId) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            console.log("data", dataId);
+            resolve("success");
+        }, 2000);
+    });
+}
+
+// Promise chaining
+getData(1)
+    .then(() => getData(2))
+    .then(() => getData(3))
+    .then(() => {
+        console.log("done");
+    })
+    .catch((err) => {
+        console.log(err);
+    });
+
+
+aysnch await 
+
+function getData(dataId) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            console.log("data", dataId);
+            resolve("success");
+        }, 2000);
+    });
+}
+
+async function getAllData() {
+
+    await getData(1);
+    await getData(2);
+    await getData(3);
+}
+
+
+===============================================
+
+
+test('Test URL',asynch({page}){
+
+await page.goto("URL)
+await page.locator("#ID").click()
+
+}){
+
+
+
+}
+
+===========================================================
+
+What is IIFE?
+
+IIFE stands for Immediately Invoked Function Expression. 
+It's a function that runs immediately after it's defined, without needing to call it separately.
+syntaxt'
+
+((){
+
+
+})();
+
+1. Regular Function Expression
+(function() {
+    console.log("Hello from IIFE");
+})();
+
+
+2. Arrow Function
+
+(() => {
+    console.log("Hello from IIFE");
+})();
+
+(async () => {
+    await getData(1);
+    await getData(2);
+    await getData(3);
+})();

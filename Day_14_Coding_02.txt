@@ -1,0 +1,236 @@
+let arr = [1, 2, 3, 4, 5]
+
+output =[2, 4, 6, 8, 10]
+
+
+function num(arr){
+
+    let x=arr.map((y)=>{
+        console.log(y)
+
+    })
+
+
+
+}
+console.log(num(arr))
+
+
+=========================
+
+
+let arr = [1, 2, 3, 4, 5]
+
+function num(arr){
+
+    let x=arr.map((y)=>{
+        return y*2
+
+    })
+    return x
+
+}
+console.log(num(arr))
+
+
+===========================================
+
+const names = ["john", "alice", "bob"];
+["JOHN", "ALICE", "BOB"]
+
+function nameChane(names){
+
+    return names.map((hhh)=>{
+        hhh.toUpperCase()
+
+    })
+
+
+}
+
+console.log(nameChane(names))
+
+===============================
+
+const names = ["john", "alice", "bob"];
+
+
+function nameChane(names){
+
+    let newName = names.map((hhh)=>{
+        return hhh.toUpperCase()
+
+    })
+
+    return newName
+}
+
+console.log(nameChane(names))
+
+==============================================
+
+get length of each word in an array 
+
+let word =["apple", "banana", "kiwi"]
+
+[5, 6, 4]
+
+function getLenghth(words){
+
+    return words.map(x=>x.length)
+
+
+}
+
+console.log(getLenghth(word))
+
+========================================
+
+
+let word =["apple", "banana", "kiwi"]
+
+
+function getLenghth(words){
+
+    return words.map(x=>x.length)
+
+
+}
+
+console.log(getLenghth(word))
+
+========================================
+Filter Words Longer Than 5 Characters
+
+let animal =["cat", "elephant", "dog", "giraffe"]
+
+
+function getLongWord(animal){
+
+    return animal.filter(x=>x.length>5)
+}
+
+console.log(getLongWord(animal))
+
+======================================================
+
+
+let animal =["cat", "elephant", "dog", "giraffe"]
+
+
+function getLongWord(animal){
+
+    return animal.filter(x=>x.length>5)
+}
+
+console.log(getLongWord(animal))
+
+=====================================================
+Find Maximum Number
+let num =[15, 8, 30, 22]
+
+function MaxValue(num){
+
+    let NewVal= num.reduce((x,y)=>{
+        return x>y?x:y
+
+    }
+
+    return NewVal
+    )
+
+
+}
+
+console.log(MaxValue(num))
+
+===========================================================
+
+let num =[15, 8, 30, 22]
+
+function MaxValue(num){
+
+    let NewVal= num.reduce((x,y)=>{
+        return x>y?x:y
+
+    }    
+    )
+return NewVal
+
+}
+
+console.log(MaxValue(num))
+
+============================================
+Count Total Characters
+let word =["hello", "world", "js"]
+
+function count(word){
+
+   let y= word.join("")
+   return y
+
+
+
+}
+
+console.log(count(word))
+
+======================
+
+
+let word =["hello", "world", "js"]
+
+
+function count(word){
+
+   let y= word.join("").length
+   return y
+
+
+
+}
+
+console.log(count(word))
+
+split will convert an array into string 
+
+join will convert an array into string and then we can use length to get the total number of characters in the string.
+
+
+=======================
+
+const arr = [10, 20, 30, 40, 50];
+
+let x= arr.slice(0,3)
+console.log(x)
+
+==================================
+
+const str = "Programming";
+
+ming
+
+str.slice(-4)
+
+======================================
+const str = "Programming";
+
+
+find vowels 
+
+function findVowels(str){
+let vowels =['a', 'e', 'i', 'o', 'u']
+
+let y= str.toLowerCase().split("")
+
+console.log(y)
+
+}
+
+
+
+
+
+
+
